@@ -6,7 +6,6 @@ plugins {
 
 group = 'com.mazeltov'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
 
 repositories {
 	mavenCentral()
@@ -20,6 +19,7 @@ ext {
 
 dependencies {
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-zuul'
+	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}

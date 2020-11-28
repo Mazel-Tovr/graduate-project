@@ -1,0 +1,65 @@
+server:
+  port: 8762
+  address: localhost
+
+cart-service:
+  id: CARTSERVICE
+product-service:
+  id: PRODUCTSERVICE
+order-service:
+  id: ORDERSERVICE
+
+spring:
+  application:
+    name: zuul-server
+
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    server-url:
+      defaultZone: http://localhost:8761/eureka
+  server:
+    waitTimeInMsWhenSyncEmpty: 0
+  healthcheck:
+    enabled: true
+  instance:
+    prefer-ip-address: true
+    lease-expiration-duration-in-seconds: 15
+    lease-renewal-interval-in-seconds: 5
+    ip-address: ${server.address}
+    instance-id: ${server.address}:${server.port}
+
+zuule:
+  host:
+    socket-timeout-millis: 60000
+    connect-timeout-millis: 60000
+    max-per-route-connections: 10000
+    max-total-connections: 5000
+  routes:
+    cart-service:
+      path: /api/cart/**
+      serviceId: ${cart-service.id}
+      stripPrefix: false
+    product-service:
+      path: /api/products/**
+      serviceId: ${product-service.id}
+      stripPrefix: false
+    order-service:
+      path: /api/orders/**
+      serviceId: ${order-service.id}
+      stripPrefix: false
+
+
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 11000
+
+ribbon:
+  ConnectTimeout: 10000
+  ReadTimeout: 10000

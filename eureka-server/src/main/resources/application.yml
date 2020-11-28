@@ -1,0 +1,16 @@
+server:
+  port: 8761
+eureka:
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    server-url:
+      defaultZone: http://localhost:8761/eureka
+  server:
+    waitTimeInMsWhenSyncEmpty: 0
+  healthcheck:
+        enabled: true
+  instance:
+    hostname: localhost
+    lease-expiration-duration-in-seconds: 15
+    lease-renewal-interval-in-seconds: 5
