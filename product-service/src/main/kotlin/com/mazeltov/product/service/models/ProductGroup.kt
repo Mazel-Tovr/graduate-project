@@ -1,4 +1,4 @@
-package com.mazeltov.product.service.dao
+package com.mazeltov.product.service.models
 
 import javax.persistence.*
 

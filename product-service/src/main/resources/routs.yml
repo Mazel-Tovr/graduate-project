@@ -1,0 +1,10 @@
+api: /api
+  products: ${api}/products
+    current: ${api.products}/{id}
+  group: ${api}/groups
+    current: ${api.group}/{id}
+  groupVariant: ${api}/groupVariant
+    current: ${api.groupVariant}/{id}
+  review-service: ${api}/{product}/reviews
+    current: ${api.review-service}/{id}
+

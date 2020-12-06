@@ -1,4 +1,4 @@
-package com.mazeltov.product.service.dao
+package com.mazeltov.product.service.models
 
 import java.util.*
 import javax.persistence.*
@@ -15,6 +15,5 @@ data class Product(
         var description:String="",
         @ManyToOne(fetch = FetchType.EAGER)
         @JoinColumn(name = "group_id")
-        var group:ProductGroup
-
+        var group: ProductGroup
 )
