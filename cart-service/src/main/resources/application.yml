@@ -1,14 +1,14 @@
 server:
-  port: 8089
+  port: 8081
   adress: localhost
 #
 #Spring
 #
 spring:
   application:
-    name: PRODUCT-SERVICE
+    name: CART-SERVICE
   datasource:
-    url: jdbc:mysql://localhost:3306/productDatabase?useUnicode=true&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/orderDatabase?useUnicode=true&serverTimezone=UTC
     driver: com.mysql.Driver
     username: root
     password:
@@ -33,15 +33,7 @@ spring:
   main:
     allow-bean-definition-overriding: true
 
-#
-#JWT
-#
-jwt:
-  header: Authentication
-  # 60 * 60 * 24 = 86400
-  expires_in: 86400
-  secret: sgd34bwfAbfSBPpe0r8gwbg
-  cookie: AUTH-TOKEN
+
 #
 #EUREKA SETTINGS
 #
@@ -68,14 +60,10 @@ feign:
   hystrix:
     enabled: true
 
-recommendation-service:
-  name: RECOMMENDATION-SERVICE
-product-availabillity-service:
-  name: PRODUCT-AVAILABILLITY-SERVICE
-review-service:
-  name: REVIEW-SEVICE
+product-service:
+  name: PRODUCT-SERVICE
 #
-#Ribbon planning to make server load balancer to review, recommendation, availability services
+#Ribbon planning to make server load balancer to cart, product services
 #
 #Some setting here
 

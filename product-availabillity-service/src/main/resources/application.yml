@@ -1,12 +1,12 @@
 server:
-  port: 8089
+  port: 8088
   adress: localhost
 #
 #Spring
 #
 spring:
   application:
-    name: PRODUCT-SERVICE
+    name: PRODUCT-AVAILABILLITY-SERVICE
   datasource:
     url: jdbc:mysql://localhost:3306/productDatabase?useUnicode=true&serverTimezone=UTC
     driver: com.mysql.Driver
@@ -33,15 +33,7 @@ spring:
   main:
     allow-bean-definition-overriding: true
 
-#
-#JWT
-#
-jwt:
-  header: Authentication
-  # 60 * 60 * 24 = 86400
-  expires_in: 86400
-  secret: sgd34bwfAbfSBPpe0r8gwbg
-  cookie: AUTH-TOKEN
+
 #
 #EUREKA SETTINGS
 #
@@ -60,44 +52,4 @@ eureka:
     lease-expiration-duration-in-seconds: 15
     lease-renewal-interval-in-seconds: 5
     ip-address: ${server.address}
-    instance-id: ${server.address}:${server.port}
-#
-#FEING
-#
-feign:
-  hystrix:
-    enabled: true
-
-recommendation-service:
-  name: RECOMMENDATION-SERVICE
-product-availabillity-service:
-  name: PRODUCT-AVAILABILLITY-SERVICE
-review-service:
-  name: REVIEW-SEVICE
-#
-#Ribbon planning to make server load balancer to review, recommendation, availability services
-#
-#Some setting here
-
-#
-#Hystrix
-#
-hystrix:
-  command:
-    default:
-      execution:
-        isolation:
-          strategy: SEMAPHORE
-          thread:
-            timeoutInMilliseconds: 10000
-      #After 3 failed request we turn on a default realisation,
-      #after 1 min we will try again sent request to service
-      circuitBreaker:
-        enabled: true
-        requestVolumeThreshold: 3
-        sleepWindowInMilliseconds: 60000
-      fallback:
-        enable: true
-        isolation:
-          semaphore:
-            maxConcurrentRequests: 3
+    instance-id: ${server.address}:${server.port}application.yml
