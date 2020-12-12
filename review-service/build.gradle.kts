@@ -20,9 +20,12 @@ repositories {
 extra["springCloudVersion"] = "Hoxton.BUILD-SNAPSHOT"
 
 dependencies {
-	implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
+//	implementation("org.springframework.boot:spring-boot-starter-data-mongodb") tak v lenb izychatb eto vse , pustaya trata vremeni
+	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+	runtimeOnly("mysql:mysql-connector-java")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+	implementation("io.springfox:springfox-swagger2:3.0.0")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")

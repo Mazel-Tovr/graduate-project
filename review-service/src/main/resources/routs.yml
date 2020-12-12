@@ -1,0 +1,4 @@
+api: /api
+  review-service: ${api}/{product}/reviews
+    current: ${api.review-service}/{id}
+
