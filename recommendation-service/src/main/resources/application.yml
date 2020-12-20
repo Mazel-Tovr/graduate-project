@@ -1,5 +1,5 @@
 server:
-  port: 8082
+  port: 7777
   adress: localhost
 #
 #Spring
@@ -7,13 +7,21 @@ server:
 spring:
   application:
     name: RECOMMENDATION-SERVICE
-  datasource:
-    url: jdbc:mysql://localhost:3306/orderDatabase?useUnicode=true&serverTimezone=UTC
-    driver: com.mysql.Driver
-    username: root
-    password:
+  productdb:
+    datasource:
+      url: jdbc:mysql://localhost:3306/productDatabase?useUnicode=true&serverTimezone=UTC
+      driver: com.mysql.Driver
+      username: root
+      password:
+  recomendationdb:
+    datasource:
+      url: jdbc:mysql://localhost:3306/recomendationDatabase?useUnicode=true&serverTimezone=UTC
+      driver: com.mysql.Driver
+      username: root
+      password:
     #initialization-mode: always
   jpa:
+    database: default
     properties:
       hibernate:
         connection:

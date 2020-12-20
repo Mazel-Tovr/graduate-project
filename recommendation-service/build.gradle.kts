@@ -20,7 +20,9 @@ repositories {
 extra["springCloudVersion"] = "Hoxton.BUILD-SNAPSHOT"
 
 dependencies {
-	implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
+//	implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
+	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+	runtimeOnly("mysql:mysql-connector-java")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("io.springfox:springfox-swagger2:3.0.0")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
