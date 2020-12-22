@@ -70,6 +70,8 @@ feign:
 
 product-availabillity-service:
   name: PRODUCT-AVAILABILLITY-SERVICE
+authorization-service:
+  name: AUTHORIZATION-SERVICE
 
 #
 #Ribbon planning to make server load balancer to cart, product services

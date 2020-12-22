@@ -1,4 +1,5 @@
 api: /api
   recomendation-service: ${api}/recomendations
     certain-count: ${api.recomendation-service}/{count}
-
+  authorization-service : ${api}/users
+    curent-user: ${authorization-service}/{id}

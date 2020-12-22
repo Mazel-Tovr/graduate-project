@@ -7,7 +7,7 @@ import javax.persistence.*
 @Table(name = "product")
 data class User(@Id
                 @GeneratedValue(strategy = GenerationType.IDENTITY)
-                var id: Long,
+                var id: Long = -1,
                 @Column(name = "user_id")
                 var userId: Long
 )
