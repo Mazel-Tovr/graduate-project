@@ -13,25 +13,25 @@ import org.springframework.web.bind.annotation.*
 )
 interface ReviewServiceFeignClient {
 
-    @GetMapping("\${api.review-service}")
+    @GetMapping("\${api.review-service.rout}")
     fun getAllReviews(@PathVariable product: Long): List<Review>
 
-    @GetMapping("\${api.review-service.current}")
+    @GetMapping("\${api.review-service.current.rout}")
     fun getReviewById(@PathVariable(value = "product") productId: Long,
                       @PathVariable(value = "id") reviewId: Long): Review
 
-    @GetMapping("\${api.review-service}")
+    @GetMapping("\${api.review-service.rout}")
     fun getReviewsBetween(@PathVariable(value = "product") productId: Long,
                           @RequestParam(value = "start") start: Int,
                           @RequestParam(value = "finish") finish: Int): Review
 
-    @PostMapping("\${api.review-service}")
+    @PostMapping("\${api.review-service.rout}")
     fun addReview(@PathVariable(value = "product") productId: Long, @RequestBody review: Review): Review
 
-    @PatchMapping("\${api.review-service.current}")
+    @PatchMapping("\${api.review-service.current.rout}")
     fun editReview(@PathVariable(value = "product") productId: Long, @RequestBody review: Review): Review
 
-    @DeleteMapping("\${api.review-service.current}")
+    @DeleteMapping("\${api.review-service.current.rout}")
     fun deleteReview(@PathVariable(value = "product") productId: Long,
                      @PathVariable(value = "id") reviewId: Long)
 

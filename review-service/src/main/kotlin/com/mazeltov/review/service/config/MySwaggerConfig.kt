@@ -21,7 +21,7 @@ class MySwaggerConfig {
                 .build()
     }
 
-    @Value("\${api.review-service}")
+    @Value("\${api.review-service.rout}")
     private lateinit var reviewService: String
 
 

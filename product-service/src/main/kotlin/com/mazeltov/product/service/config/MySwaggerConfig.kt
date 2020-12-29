@@ -21,13 +21,13 @@ class MySwaggerConfig {
                 .build()
     }
 
-    @Value("\${api.products}")
+    @Value("\${api.products.rout}")
     private lateinit var product: String
 
-    @Value("\${api.products}")
+    @Value("\${api.products.rout}")
     private lateinit var group: String
 
-    @Value("\${api.products}")
+    @Value("\${api.products.rout}")
     private lateinit var groupVariant: String
 
 

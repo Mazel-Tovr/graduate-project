@@ -1,6 +1,6 @@
 server:
   port: 8089
-  adress: localhost
+  address: localhost
 #
 #Spring
 #
@@ -11,21 +11,23 @@ spring:
     url: jdbc:mysql://localhost:3306/productDatabase?useUnicode=true&serverTimezone=UTC
     driver: com.mysql.Driver
     username: root
-    password:
-    #initialization-mode: always
+    password: 123
+    initialization-mode: always
   jpa:
+    hibernate:
+      ddl-auto: update
+      show-sql: true
+      cache:
+        use_query_cache: false
+        use_second_level_cache: false
     properties:
       hibernate:
         connection:
           charSet: UTF-8
         hbm2ddl:
           import_files_sql_extractor: org.hibernate.tool.hbm2ddl.MultipleLinesSqlCommandExtractor
-        dialect: org.hibernate.dialect.MySQLDialec
-        ddl-auto: update
-        show-sql: false
-        cache:
-          use_query_cache: false
-          use_second_level_cache: false
+        dialect: org.hibernate.dialect.MySQLDialect
+
   http:
     multipart:
       max-file-size: 1500KB
@@ -101,3 +103,22 @@ hystrix:
         isolation:
           semaphore:
             maxConcurrentRequests: 3
+
+api:
+  rout: /api
+  products:
+    rout: ${api.rout}/products
+    current:
+      rout: ${api.products.rout}/{id}
+  group:
+    rout: ${api.rout}/groups
+    current:
+      rout: ${api.group.rout}/{id}
+  groupVariant:
+    rout: ${api.rout}/groupVariant
+    current:
+      rout: ${api.groupVariant.rout}/{id}
+  review-service:
+    rout: ${api.rout}/{product}/reviews
+    current:
+      rout: ${api.review-service.rout}/{id}

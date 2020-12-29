@@ -8,11 +8,11 @@ import javax.persistence.*
 data class Product(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        var id:Long,
-        var name:String = "",
+        var id: Long = -1,
+        var name: String = "",
         @Temporal(TemporalType.TIMESTAMP)
-        var created:Date,
-        var description:String="",
+        var created: Date = Date(),
+        var description: String = "",
         @ManyToOne(fetch = FetchType.EAGER)
         @JoinColumn(name = "group_id")
         var group: ProductGroup
