@@ -1,3 +1,13 @@
+eureka:
+  port: 8761
+  address: localhost
+---
+spring:
+  profiles: docker
+eureka:
+  port: 8761
+  address: eureka-server
+---
 server:
   port: 8762
   address: localhost
@@ -17,8 +27,8 @@ eureka:
   client:
     registerWithEureka: true
     fetchRegistry: true
-    server-url:
-      defaultZone: http://localhost:8761/eureka
+    service-url:
+      defaultZone: http://${eureka.address}:${eureka.port}/eureka
   server:
     waitTimeInMsWhenSyncEmpty: 0
   healthcheck:

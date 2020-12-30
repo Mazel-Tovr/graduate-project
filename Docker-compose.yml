@@ -1,40 +1,59 @@
 version: "3.1"
 
 
+networks:
+  my-network:
+    name: my-network
+    driver: bridge
+
 services:
-  product-database:
-    image: mysql
-  #  command: --default-authentication-plugin=mysql_native_password
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: 123
-      MYSQL_DATABASE: productDatabase
-      MYSQL_USER: root
-      MYSQL_PASSWORD: 123
-    ports:
-      - 3306:3306
+#  product-database:
+#    image: mysql
+#  #  command: --default-authentication-plugin=mysql_native_password
+#    restart: always
+#    environment:
+#      MYSQL_ROOT_PASSWORD: 123
+#      MYSQL_DATABASE: productDatabase
+#      MYSQL_USER: root
+#      MYSQL_PASSWORD: 123
+#    ports:
+#      - 3306:3306
 #    volumes:
 #      - ./databases/product/:/var/lib/mysql
 
-#  eureka-server:
-#    build: eureka-server/
-#    restart: always
-#    ports:
-#      - 8761:8761
-#
-#  gateway:
-#    build: gateway/
-#    restart: always
-#    ports:
-#      - 8762:8762
-#    links:
-#      - eureka-server
-
-  product-service:
-    build: product-service/
+  eureka-server:
+    build: eureka-server/
+    container_name: eureka-server
     restart: always
     ports:
-      - 8089:8089
+      - 8761:8761
+    expose:
+      - 8761
+    hostname: eureka-server
+    networks:
+      - my-network
+
+  gateway:
+    build: gateway/
+    container_name: gateway
+    restart: always
+    ports:
+      - 8762:8762
+    depends_on:
+      - eureka-server
     links:
-#      - gateway
-      - product-database
+      - eureka-server
+    expose:
+      - 8762
+    networks:
+      - my-network
+
+#  product-service:
+#    build: product-service/
+#    restart: always
+#    ports:
+#      - 8089:8089
+##    depends_on:
+##      - gateway
+#    links:
+#      - product-database

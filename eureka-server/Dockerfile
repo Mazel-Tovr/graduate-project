@@ -6,4 +6,4 @@ COPY ./build/libs/eureka-server-0.0.1-SNAPSHOT.jar /eureka-server/eureka-server.
 
 WORKDIR /eureka-server
 
-CMD ["java", "-server", "-jar", "eureka-server.jar"]
+CMD ["java", "-server", "-jar", "eureka-server.jar", "--spring.profiles.active=docker"]
