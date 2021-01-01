@@ -1,11 +1,10 @@
-
 eureka:
   port: 8761
   address: localhost
 db:
-  port: 3308
+  port: 3307
   host: localhost
-  name: reviewDatabase
+  name: userDatabase
 ---
 spring:
   profiles: docker
@@ -13,26 +12,27 @@ eureka:
   port: 8761
   address: eureka-server
 db:
-  port: 3308
-  host: review-database
-  name: reviewDatabase
+  port: 3307
+  host: user-database
+  name: userDatabase
 ---
 
 server:
-  port: 8082
-  adress: localhost
+  port: 8091
+  address: localhost
 #
 #Spring
 #
+
 spring:
   application:
-    name: RECOMMENDATION-SERVICE
+    name: PRODUCT-SERVICE
   datasource:
     url: jdbc:mysql://${db.host}:${db.port}/${db.name}?useUnicode=true&serverTimezone=UTC
     driver: com.mysql.Driver
     username: root
     password: root
-    #initialization-mode: always
+    # initialization-mode: always
   jpa:
     hibernate:
       ddl-auto: update
@@ -47,6 +47,7 @@ spring:
         hbm2ddl:
           import_files_sql_extractor: org.hibernate.tool.hbm2ddl.MultipleLinesSqlCommandExtractor
         dialect: org.hibernate.dialect.MySQL57Dialect
+
   http:
     multipart:
       max-file-size: 1500KB
@@ -54,7 +55,15 @@ spring:
   main:
     allow-bean-definition-overriding: true
 
-
+#
+#JWT
+#
+jwt:
+  header: Authentication
+  # 60 * 60 * 24 = 86400
+  expires_in: 86400
+  secret: sgd34bwfAbfSBPpe0r8gwbg
+  cookie: AUTH-TOKEN
 #
 #EUREKA SETTINGS
 #
@@ -74,37 +83,4 @@ eureka:
     lease-renewal-interval-in-seconds: 5
     ip-address: ${server.address}
     instance-id: ${server.address}:${server.port}
-#
-#FEING
-#
-#feign:
-#  hystrix:
-#    enabled: true
 
-#
-#Ribbon planning to make server load balancer to cart, product services
-#
-#Some setting here
-
-#
-#Hystrix
-#
-#hystrix:
-#  command:
-#    default:
-#      execution:
-#        isolation:
-#          strategy: SEMAPHORE
-#          thread:
-#            timeoutInMilliseconds: 10000
-#      #After 3 failed request we turn on a default realisation,
-#      #after 1 min we will try again sent request to service
-#      circuitBreaker:
-#        enabled: true
-#        requestVolumeThreshold: 3
-#        sleepWindowInMilliseconds: 60000
-#      fallback:
-#        enable: true
-#        isolation:
-#          semaphore:
-#            maxConcurrentRequests: 3

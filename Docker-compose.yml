@@ -1,59 +1,105 @@
 version: "3.1"
 
 
-networks:
-  my-network:
-    name: my-network
-    driver: bridge
 
 services:
-#  product-database:
-#    image: mysql
-#  #  command: --default-authentication-plugin=mysql_native_password
+  product-database:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: productDatabase
+    ports:
+      - 3305:3306
+#    hostname: product-database
+    volumes:
+      - D:/GitHub/graduate-project/databases/product/var/lib/mysql57-data:/var/lib/mysql
+
+  user-database:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: userDatabase
+    ports:
+      - 3307:3306
+#    hostname: user-database
+    volumes:
+      - D:/GitHub/graduate-project/databases/user/var/lib/mysql57-data:/var/lib/mysql
+
+  review-database:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: reviewDatabase
+    ports:
+      - 3308:3306
+#    hostname: review-database
+    volumes:
+      - D:/GitHub/graduate-project/databases/review/var/lib/mysql57-data:/var/lib/mysql
+
+  cart-database:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: cartDatabase
+    ports:
+      - 3309:3306
+#    hostname: cart-database
+    volumes:
+      - D:/GitHub/graduate-project/databases/cart/var/lib/mysql57-data:/var/lib/mysql
+
+  order-database:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: orderDatabase
+    ports:
+      - 3310:3306
+#    hostname: order-database
+    volumes:
+      - D:/GitHub/graduate-project/databases/order/var/lib/mysql57-data:/var/lib/mysql
+  recommendation-database:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: recommendationDatabase
+    ports:
+      - 3311:3306
+#    hostname: recommendation-database
+    volumes:
+      - D:/GitHub/graduate-project/databases/recommendation/var/lib/mysql57-data:/var/lib/mysql
+
+#  eureka-server:
+#    build: eureka-server/
+#    container_name: eureka-server
 #    restart: always
-#    environment:
-#      MYSQL_ROOT_PASSWORD: 123
-#      MYSQL_DATABASE: productDatabase
-#      MYSQL_USER: root
-#      MYSQL_PASSWORD: 123
 #    ports:
-#      - 3306:3306
-#    volumes:
-#      - ./databases/product/:/var/lib/mysql
-
-  eureka-server:
-    build: eureka-server/
-    container_name: eureka-server
-    restart: always
-    ports:
-      - 8761:8761
-    expose:
-      - 8761
-    hostname: eureka-server
-    networks:
-      - my-network
-
-  gateway:
-    build: gateway/
-    container_name: gateway
-    restart: always
-    ports:
-      - 8762:8762
-    depends_on:
-      - eureka-server
-    links:
-      - eureka-server
-    expose:
-      - 8762
-    networks:
-      - my-network
-
+#      - 8761:8761
+#    hostname: eureka-server
+#
+#  gateway:
+#    build: gateway/
+#    container_name: gateway
+#    restart: always
+#    ports:
+#      - 8762:8762
+#    depends_on:
+#      - eureka-server
+#
 #  product-service:
 #    build: product-service/
 #    restart: always
+#    container_name: product-service
 #    ports:
 #      - 8089:8089
-##    depends_on:
-##      - gateway
+#    hostname: product-service
+#    depends_on:
+#      - gateway
+#      - eureka-server
 #    links:
 #      - product-database

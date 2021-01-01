@@ -1,3 +1,22 @@
+eureka:
+  port: 8761
+  address: localhost
+db:
+  port: 3310
+  host: localhost
+  name: orderDatabase
+---
+spring:
+  profiles: docker
+eureka:
+  port: 8761
+  address: eureka-server
+db:
+  port: 3310
+  host: order-database
+  name: orderDatabase
+---
+
 server:
   port: 8081
   adress: localhost
@@ -8,12 +27,18 @@ spring:
   application:
     name: ORDER-SERVICE
   datasource:
-    url: jdbc:mysql://localhost:3306/orderDatabase?useUnicode=true&serverTimezone=UTC
+    url: jdbc:mysql://${db.host}:${db.port}/${db.name}?useUnicode=true&serverTimezone=UTC
     driver: com.mysql.Driver
     username: root
-    password:
+    password: root
     #initialization-mode: always
   jpa:
+    hibernate:
+      ddl-auto: update
+      show-sql: true
+      cache:
+        use_query_cache: false
+        use_second_level_cache: false
     properties:
       hibernate:
         connection:
@@ -21,11 +46,6 @@ spring:
         hbm2ddl:
           import_files_sql_extractor: org.hibernate.tool.hbm2ddl.MultipleLinesSqlCommandExtractor
         dialect: org.hibernate.dialect.MySQLDialect
-        ddl-auto: update
-        show-sql: false
-        cache:
-          use_query_cache: false
-          use_second_level_cache: false
   http:
     multipart:
       max-file-size: 1500KB
@@ -41,8 +61,8 @@ eureka:
   client:
     registerWithEureka: true
     fetchRegistry: true
-    server-url:
-      defaultZone: http://localhost:8761/eureka
+    service-url:
+      defaultZone: http://${eureka.address}:${eureka.port}/eureka
   server:
     waitTimeInMsWhenSyncEmpty: 0
   healthcheck:

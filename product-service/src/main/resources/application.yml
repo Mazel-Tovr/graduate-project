@@ -1,18 +1,38 @@
+eureka:
+  port: 8761
+  address: localhost
+db:
+  port: 3305
+  host: localhost
+  name: productDatabase
+---
+spring:
+  profiles: docker
+eureka:
+  port: 8761
+  address: eureka-server
+db:
+  port: 3305
+  host: product-database
+  name: productDatabase
+---
+
 server:
   port: 8089
   address: localhost
 #
 #Spring
 #
+
 spring:
   application:
     name: PRODUCT-SERVICE
   datasource:
-    url: jdbc:mysql://localhost:3306/productDatabase?useUnicode=true&serverTimezone=UTC
+    url: jdbc:mysql://${db.host}:${db.port}/${db.name}?useUnicode=true&serverTimezone=UTC
     driver: com.mysql.Driver
     username: root
-    password: 123
-    initialization-mode: always
+    password: root
+   # initialization-mode: always
   jpa:
     hibernate:
       ddl-auto: update
@@ -26,7 +46,7 @@ spring:
           charSet: UTF-8
         hbm2ddl:
           import_files_sql_extractor: org.hibernate.tool.hbm2ddl.MultipleLinesSqlCommandExtractor
-        dialect: org.hibernate.dialect.MySQLDialect
+        dialect: org.hibernate.dialect.MySQL57Dialect
 
   http:
     multipart:
@@ -51,8 +71,8 @@ eureka:
   client:
     registerWithEureka: true
     fetchRegistry: true
-    server-url:
-      defaultZone: http://localhost:8761/eureka
+    service-url:
+      defaultZone: http://${eureka.address}:${eureka.port}/eureka
   server:
     waitTimeInMsWhenSyncEmpty: 0
   healthcheck:

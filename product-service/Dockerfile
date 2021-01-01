@@ -6,4 +6,4 @@ COPY ./build/libs/product-service-0.0.1-SNAPSHOT.jar /product-service/product-se
 
 WORKDIR /product-service
 
-CMD ["java", "-server", "-jar", "product-service.jar"]
+CMD ["java", "-server", "-jar", "product-service.jar", "--spring.profiles.active=docker"]

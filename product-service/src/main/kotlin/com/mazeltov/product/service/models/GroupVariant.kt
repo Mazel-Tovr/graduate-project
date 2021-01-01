@@ -8,9 +8,9 @@ import javax.persistence.*
 data class GroupVariant(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        var id: Long = -1,
+        @Column(name = "group_variant_id")
+        var id: Long = 0,
         var name: String = "",
-        @ManyToOne(fetch = FetchType.LAZY)
-        @JoinColumn(name = "product_group_id")
-        var group: ProductGroup
+        @OneToMany(mappedBy = "groupVariants", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
+        var productGroup: List<ProductGroup> = emptyList()
 )

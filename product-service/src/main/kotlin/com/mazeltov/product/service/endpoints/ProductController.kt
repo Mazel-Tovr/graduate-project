@@ -13,14 +13,21 @@ class ProductController {
     @Autowired
     private lateinit var productOperations: ProductOperations
 
+    @Autowired
+    private lateinit var productGroupOperations: ProductGroupOperations
+
+    @Autowired
+    private lateinit var groupVariant: GroupVariantOperations
+
     @InjectLogger(ProductController::class)
     private lateinit var logger: Logger
 
     @GetMapping("\${api.products.rout}")
     fun getAll(): List<Product> {
         logger.info("I am here")
-        productOperations.save(Product(name = "product", group = ProductGroup(name = "Group", groupVariants = emptyList())))
-
+        val technique = groupVariant.save(GroupVariant(name = "technique"))
+        val phone = productGroupOperations.save(ProductGroup(name = "Phone", groupVariants = technique))
+        productOperations.save(Product(name = "product", productGroup = phone))
         return productOperations.findAll()
     }
 

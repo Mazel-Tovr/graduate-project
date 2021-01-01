@@ -1,3 +1,30 @@
+eureka:
+  port: 8761
+  address: localhost
+db1:
+  port: 3305
+  host: localhost
+  name: productDatabase
+db2:
+  port: 3311
+  host: localhost
+  name: recommendationDatabase
+---
+spring:
+  profiles: docker
+eureka:
+  port: 8761
+  address: eureka-server
+db1:
+  port: 3305
+  host: product-database
+  name: productDatabase
+db2:
+  port: 3311
+  host: recommendation-database
+  name: recommendationDatabase
+---
+
 server:
   port: 7777
   adress: localhost
@@ -9,18 +36,24 @@ spring:
     name: RECOMMENDATION-SERVICE
   productdb:
     datasource:
-      url: jdbc:mysql://localhost:3306/productDatabase?useUnicode=true&serverTimezone=UTC
+      url: jdbc:mysql://${db1.host}:${db1.port}/${db1.name}?useUnicode=true&serverTimezone=UTC
       driver: com.mysql.Driver
       username: root
       password:
   recomendationdb:
     datasource:
-      url: jdbc:mysql://localhost:3306/recomendationDatabase?useUnicode=true&serverTimezone=UTC
+      url: jdbc:mysql://${db2.host}:${db2.port}/${db2.name}?useUnicode=true&serverTimezone=UTC
       driver: com.mysql.Driver
       username: root
-      password:
-    #initialization-mode: always
+      password: root
+      # initialization-mode: always
   jpa:
+    hibernate:
+      ddl-auto: update
+      show-sql: true
+      cache:
+        use_query_cache: false
+        use_second_level_cache: false
     database: default
     properties:
       hibernate:
@@ -29,11 +62,6 @@ spring:
         hbm2ddl:
           import_files_sql_extractor: org.hibernate.tool.hbm2ddl.MultipleLinesSqlCommandExtractor
         dialect: org.hibernate.dialect.MySQLDialect
-        ddl-auto: update
-        show-sql: false
-        cache:
-          use_query_cache: false
-          use_second_level_cache: false
   http:
     multipart:
       max-file-size: 1500KB
@@ -49,8 +77,8 @@ eureka:
   client:
     registerWithEureka: true
     fetchRegistry: true
-    server-url:
-      defaultZone: http://localhost:8761/eureka
+    service-url:
+      defaultZone: http://${eureka.address}:${eureka.port}/eureka
   server:
     waitTimeInMsWhenSyncEmpty: 0
   healthcheck:
