@@ -13,3 +13,6 @@ pluginManagement {
 	}
 }
 rootProject.name = "product-service"
+
+include(":common")
+project(":common").projectDir =  File("../common")

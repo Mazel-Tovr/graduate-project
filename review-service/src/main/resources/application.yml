@@ -74,37 +74,49 @@ eureka:
     lease-renewal-interval-in-seconds: 5
     ip-address: ${server.address}
     instance-id: ${server.address}:${server.port}
+
 #
 #FEING
 #
-#feign:
-#  hystrix:
-#    enabled: true
+feign:
+  hystrix:
+    enabled: true
 
 #
 #Ribbon planning to make server load balancer to cart, product services
 #
 #Some setting here
-
+#
 #
 #Hystrix
 #
-#hystrix:
-#  command:
-#    default:
-#      execution:
-#        isolation:
-#          strategy: SEMAPHORE
-#          thread:
-#            timeoutInMilliseconds: 10000
-#      #After 3 failed request we turn on a default realisation,
-#      #after 1 min we will try again sent request to service
-#      circuitBreaker:
-#        enabled: true
-#        requestVolumeThreshold: 3
-#        sleepWindowInMilliseconds: 60000
-#      fallback:
-#        enable: true
-#        isolation:
-#          semaphore:
-#            maxConcurrentRequests: 3
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          strategy: SEMAPHORE
+          thread:
+            timeoutInMilliseconds: 10000
+      #After 3 failed request we turn on a default realisation,
+      #after 1 min we will try again sent request to service
+      circuitBreaker:
+        enabled: true
+        requestVolumeThreshold: 3
+        sleepWindowInMilliseconds: 60000
+      fallback:
+        enable: true
+        isolation:
+          semaphore:
+            maxConcurrentRequests: 3
+
+api:
+  rout: /api
+  review-service:
+    rout: ${api.rout}/{product}/reviews
+    current:
+      rout: ${api.review-service.rout}/{id}
+  authorization-service :
+    rout: ${api.rout}/users
+    curent-user:
+      rout: ${authorization-service.rout}/{id}

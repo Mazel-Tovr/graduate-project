@@ -16,5 +16,7 @@ data class Product(
         var description: String = "",
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "product_group")
-        var productGroup: ProductGroup
+        var productGroup: ProductGroup,
+        var amount: Int,
+        var price: Int
 )

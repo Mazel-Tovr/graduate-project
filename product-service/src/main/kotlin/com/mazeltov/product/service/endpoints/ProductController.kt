@@ -27,7 +27,7 @@ class ProductController {
         logger.info("I am here")
         val technique = groupVariant.save(GroupVariant(name = "technique"))
         val phone = productGroupOperations.save(ProductGroup(name = "Phone", groupVariants = technique))
-        productOperations.save(Product(name = "product", productGroup = phone))
+        productOperations.save(Product(name = "product", productGroup = phone,amount = 0,price = 200))
         return productOperations.findAll()
     }
 

@@ -4,3 +4,9 @@ api:
     rout: ${api.rout}/{product}/reviews
     current:
       rout: ${api.review-service.rout}/{id}
+  authorization-service:
+    rout: ${api.rout}/users
+    curent-user:
+      rout: ${authorization-service.rout}/{id}
+  product-service:
+    rout: ${api.rout}

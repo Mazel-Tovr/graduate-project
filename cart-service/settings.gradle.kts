@@ -13,3 +13,6 @@ pluginManagement {
 	}
 }
 rootProject.name = "cart-service"
+
+include(":common")
+project(":common").projectDir =  File("../common")

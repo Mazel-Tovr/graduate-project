@@ -14,22 +14,22 @@ import org.springframework.web.bind.annotation.*
 interface ReviewServiceFeignClient {
 
     @GetMapping("\${api.review-service.rout}")
-    fun getAllReviews(@PathVariable product: Long): List<Review>
+    fun getAllReviews(@PathVariable product: Long): List<ReviewDto>
 
     @GetMapping("\${api.review-service.current.rout}")
     fun getReviewById(@PathVariable(value = "product") productId: Long,
-                      @PathVariable(value = "id") reviewId: Long): Review
+                      @PathVariable(value = "id") reviewId: Long): ReviewDto
 
     @GetMapping("\${api.review-service.rout}")
     fun getReviewsBetween(@PathVariable(value = "product") productId: Long,
                           @RequestParam(value = "start") start: Int,
-                          @RequestParam(value = "finish") finish: Int): Review
+                          @RequestParam(value = "finish") finish: Int): ReviewDto
 
     @PostMapping("\${api.review-service.rout}")
-    fun addReview(@PathVariable(value = "product") productId: Long, @RequestBody review: Review): Review
+    fun addReview(@PathVariable(value = "product") productId: Long, @RequestBody review: ReviewDto): ReviewDto
 
     @PatchMapping("\${api.review-service.current.rout}")
-    fun editReview(@PathVariable(value = "product") productId: Long, @RequestBody review: Review): Review
+    fun editReview(@PathVariable(value = "product") productId: Long, @RequestBody review: ReviewDto): ReviewDto
 
     @DeleteMapping("\${api.review-service.current.rout}")
     fun deleteReview(@PathVariable(value = "product") productId: Long,
@@ -41,23 +41,23 @@ interface ReviewServiceFeignClient {
         @InjectLogger(ReviewServiceDefaultRealisation::class)
         private lateinit var logger: Logger
 
-        override fun getAllReviews(product: Long): List<Review> {
+        override fun getAllReviews(product: Long): List<ReviewDto> {
             TODO("Not yet implemented")
         }
 
-        override fun getReviewById(productId: Long, reviewId: Long): Review {
+        override fun getReviewById(productId: Long, reviewId: Long): ReviewDto {
             TODO("Not yet implemented")
         }
 
-        override fun getReviewsBetween(productId: Long, start: Int, finish: Int): Review {
+        override fun getReviewsBetween(productId: Long, start: Int, finish: Int): ReviewDto {
             TODO("Not yet implemented")
         }
 
-        override fun addReview(productId: Long, review: Review): Review {
+        override fun addReview(productId: Long, review: ReviewDto): ReviewDto {
             TODO("Not yet implemented")
         }
 
-        override fun editReview(productId: Long, review: Review): Review {
+        override fun editReview(productId: Long, review: ReviewDto): ReviewDto {
             TODO("Not yet implemented")
         }
 

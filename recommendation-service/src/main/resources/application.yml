@@ -96,8 +96,8 @@ feign:
   hystrix:
     enabled: true
 
-product-availabillity-service:
-  name: PRODUCT-AVAILABILLITY-SERVICE
+#product-availabillity-service:
+#  name: PRODUCT-AVAILABILLITY-SERVICE
 authorization-service:
   name: AUTHORIZATION-SERVICE
 

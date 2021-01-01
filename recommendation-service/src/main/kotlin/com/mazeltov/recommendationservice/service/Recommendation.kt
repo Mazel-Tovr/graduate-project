@@ -5,19 +5,14 @@ import com.mazeltov.recommendationservice.dao.product.repository.*
 import com.mazeltov.recommendationservice.dao.recommendation.model.*
 import com.mazeltov.recommendationservice.dao.recommendation.model.ProductGroup
 import com.mazeltov.recommendationservice.dao.recommendation.repository.*
-import com.mazeltov.recommendationservice.exception.*
-import com.mazeltov.recommendationservice.feing.*
 import org.springframework.beans.factory.annotation.*
 import org.springframework.stereotype.*
+import com.mazeltov.common.util.*
+import com.mazeltov.common.exception.*
 
 @Service
 class Recommendation {
 
-    @Autowired
-    private lateinit var authorizationService: AuthorizationServiceFeignClient
-
-    @Autowired
-    private lateinit var productGroupRepositoryMain: ProductGroupOperations
 
     @Autowired
     private lateinit var userRepository: UserRepository
@@ -28,37 +23,30 @@ class Recommendation {
     @Autowired
     private lateinit var userInterestedInGroupRepository: UserInterestedInGroupRepository
 
-    fun userVisitGroup(userId: Long, groupId: Long) {
-        validateUserAndGroupOnExistence(userId, groupId)
-        val user = createUserIfNotPresent(userId)
-        val group = createProductGroupIfNotPresent(groupId)
-        createUserInterestedInGroupRepositoryIfNotPresent(user, group).let { userInterestedInGroup ->
+    fun userVisitGroup(token: String, groupId: Long) {
+        val userId = token.getUserIdFromToken() ?: throw UserDoesNotExistException("User doesn't present in token")
+        val user = getOrCreateUser(userId)
+        val group = getOrCreateProductGroup(groupId)
+        getOrCreateUserInterestedInGroup(user, group).let { userInterestedInGroup ->
             userInterestedInGroup.visitTime.inc()
             userInterestedInGroupRepository.save(userInterestedInGroup)
         }
     }
 
-    fun getRecommendation() : List<Product>{
+    fun getRecommendation(): List<Product> {
         TODO("NOT IMPLEMENTED")
     }
 
 
-    private fun validateUserAndGroupOnExistence(userId: Long, groupId: Long) {
-        if (authorizationService.getUserById(userId) == null)
-            throw UserIsNotExistException("User with such id=$userId doesn't exists")
-        if (!productGroupRepositoryMain.findById(groupId).isPresent)
-            throw ProductGroupIsNotExistException("Product group whit such id=$groupId doesn't exists")
-    }
-
-    private fun createUserIfNotPresent(id: Long) = userRepository.findByUserId(id).run {
+    private fun getOrCreateUser(id: Long): User = userRepository.findByUserId(id).run {
         if (isPresent) get() else userRepository.save(User(userId = id))
     }
 
-    private fun createProductGroupIfNotPresent(id: Long) = productGroupRepository.findByProductGroupId(id).run {
+    private fun getOrCreateProductGroup(id: Long): ProductGroup = productGroupRepository.findByProductGroupId(id).run {
         if (isPresent) get() else productGroupRepository.save(ProductGroup(productGroupId = id))
     }
 
-    private fun createUserInterestedInGroupRepositoryIfNotPresent(user: User, productGroup: ProductGroup) =
+    private fun getOrCreateUserInterestedInGroup(user: User, productGroup: ProductGroup): UserInterestedInGroup =
             userInterestedInGroupRepository.findByUserAndProductGroup(user, productGroup).run {
                 if (isPresent) get() else userInterestedInGroupRepository.save(UserInterestedInGroup(user = user, group = productGroup))
             }
