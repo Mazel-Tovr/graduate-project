@@ -1,4 +1,4 @@
-package com.mazeltov.product.service.config.sping
+package com.mazeltov.common.spring
 
 import kotlin.reflect.*
 

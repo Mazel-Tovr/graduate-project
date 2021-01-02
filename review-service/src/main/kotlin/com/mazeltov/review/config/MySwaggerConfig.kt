@@ -1,4 +1,4 @@
-package com.mazeltov.review.service.config
+package com.mazeltov.review.config
 
 import org.springframework.beans.factory.annotation.*
 import org.springframework.context.annotation.*

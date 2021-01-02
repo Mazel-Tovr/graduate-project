@@ -1,14 +1,13 @@
 package com.mazeltov.recommendationservice.service
 
+import com.mazeltov.common.exception.*
+import com.mazeltov.common.util.*
 import com.mazeltov.recommendationservice.dao.product.model.*
-import com.mazeltov.recommendationservice.dao.product.repository.*
 import com.mazeltov.recommendationservice.dao.recommendation.model.*
 import com.mazeltov.recommendationservice.dao.recommendation.model.ProductGroup
 import com.mazeltov.recommendationservice.dao.recommendation.repository.*
 import org.springframework.beans.factory.annotation.*
 import org.springframework.stereotype.*
-import com.mazeltov.common.util.*
-import com.mazeltov.common.exception.*
 
 @Service
 class Recommendation {

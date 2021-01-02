@@ -1,4 +1,4 @@
-package com.mazeltov.review.service
+package com.mazeltov.review
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest

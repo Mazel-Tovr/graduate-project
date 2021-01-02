@@ -1,7 +1,7 @@
 package com.mazeltov.product.service.feignclients
 
-import com.mazeltov.product.service.config.sping.*
-import com.mazeltov.product.service.models.dto.*
+import com.mazeltov.common.dto.*
+import com.mazeltov.common.spring.*
 import org.slf4j.*
 import org.springframework.cloud.openfeign.*
 import org.springframework.stereotype.*

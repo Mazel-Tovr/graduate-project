@@ -14,5 +14,5 @@ pluginManagement {
 }
 rootProject.name = "recommendation-service"
 
-include(":common")
+include("common")
 project(":common").projectDir =  File("../common")

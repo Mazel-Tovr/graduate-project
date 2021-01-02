@@ -1,4 +1,4 @@
-package com.mazeltov.review.service.models
+package com.mazeltov.review.models
 
 import java.util.*
 import javax.persistence.*
@@ -8,7 +8,7 @@ import javax.persistence.*
 data class Review(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        @Column(name = "review_id")
+       // @Column(name = "review_id")
         val id: Long = -1,
         @ManyToOne(fetch = FetchType.EAGER)
         @JoinColumn(name = "product")

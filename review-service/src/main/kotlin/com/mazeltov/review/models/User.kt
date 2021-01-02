@@ -1,4 +1,4 @@
-package com.mazeltov.review.service.models
+package com.mazeltov.review.models
 
 import javax.persistence.*
 
@@ -7,9 +7,10 @@ import javax.persistence.*
 data class User(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        @Column(name = "user_id")
+       // @Column(name = "user_id")
         val id: Long = -1,
+        @Column(unique = true)
         val userId: Long,
         @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
-        var reviews: List<Review>
+        var reviews: List<Review> = emptyList()
 )

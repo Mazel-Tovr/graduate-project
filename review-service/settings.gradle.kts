@@ -14,5 +14,5 @@ pluginManagement {
 }
 rootProject.name = "review-service"
 
-include(":common")
+include("common")
 project(":common").projectDir =  File("../common")

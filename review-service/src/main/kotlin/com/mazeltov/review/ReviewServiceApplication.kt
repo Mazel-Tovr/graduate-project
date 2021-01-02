@@ -1,4 +1,4 @@
-package com.mazeltov.review.service
+package com.mazeltov.review
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

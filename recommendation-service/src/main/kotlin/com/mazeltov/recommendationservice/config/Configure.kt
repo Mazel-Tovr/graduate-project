@@ -2,6 +2,7 @@ package com.mazeltov.recommendationservice.config
 
 
 import org.springframework.beans.factory.annotation.*
+import org.springframework.beans.factory.config.*
 import org.springframework.boot.context.properties.*
 import org.springframework.boot.jdbc.*
 import org.springframework.boot.orm.jpa.*
@@ -12,12 +13,18 @@ import org.springframework.transaction.*
 import org.springframework.transaction.annotation.*
 import javax.persistence.*
 import javax.sql.*
+import com.mazeltov.common.spring.*
 
 @Configuration
 @PropertySources(value = [
     PropertySource("classpath:routs.yml")]
 )
 class Configure {
+
+    @Bean
+    fun injectLoggerAnnotationBeanPostProcessor(): BeanPostProcessor {
+        return InjectLoggerAnnotationBeanPostProcessor()
+    }
 
 }
 

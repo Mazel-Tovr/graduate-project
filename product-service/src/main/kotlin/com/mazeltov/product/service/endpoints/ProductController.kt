@@ -1,6 +1,6 @@
 package com.mazeltov.product.service.endpoints
 
-import com.mazeltov.product.service.config.sping.*
+import com.mazeltov.common.spring.*
 import com.mazeltov.product.service.models.*
 import com.mazeltov.product.service.repositories.*
 import org.slf4j.*
