@@ -27,7 +27,7 @@ db2:
 
 server:
   port: 7777
-  adress: localhost
+  address: localhost
 #
 #Spring
 #
@@ -36,10 +36,10 @@ spring:
     name: RECOMMENDATION-SERVICE
   productdb:
     datasource:
-      url: jdbc:mysql://${db1.host}:${db1.port}/${db1.name}?useUnicode=true&serverTimezone=UTC
-      driver: com.mysql.Driver
-      username: root
-      password:
+        url: jdbc:mysql://${db1.host}:${db1.port}/${db1.name}?useUnicode=true&serverTimezone=UTC
+        driver: com.mysql.Driver
+        username: root
+        password: root
   recomendationdb:
     datasource:
       url: jdbc:mysql://${db2.host}:${db2.port}/${db2.name}?useUnicode=true&serverTimezone=UTC
@@ -47,6 +47,8 @@ spring:
       username: root
       password: root
       # initialization-mode: always
+
+
   jpa:
     hibernate:
       ddl-auto: update
@@ -54,21 +56,19 @@ spring:
       cache:
         use_query_cache: false
         use_second_level_cache: false
-    database: default
     properties:
       hibernate:
         connection:
           charSet: UTF-8
         hbm2ddl:
           import_files_sql_extractor: org.hibernate.tool.hbm2ddl.MultipleLinesSqlCommandExtractor
-        dialect: org.hibernate.dialect.MySQLDialect
+        dialect: org.hibernate.dialect.MySQL57Dialect
   http:
     multipart:
       max-file-size: 1500KB
       max-request-size: 1500KB
   main:
     allow-bean-definition-overriding: true
-
 
 #
 #EUREKA SETTINGS
@@ -128,3 +128,15 @@ hystrix:
         isolation:
           semaphore:
             maxConcurrentRequests: 3
+
+
+api:
+  rout: /api
+  recomendation-service:
+    rout: ${api.rout}/recomendations
+    certain-count:
+      rout: ${api.recomendation-service.rout}/{count}
+  authorization-service :
+    rout: ${api.rout}/users
+    curent-user:
+      rout: ${authorization-service.rout}/{id}

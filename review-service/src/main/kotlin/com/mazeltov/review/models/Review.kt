@@ -8,14 +8,13 @@ import javax.persistence.*
 data class Review(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-       // @Column(name = "review_id")
         val id: Long = -1,
         @ManyToOne(fetch = FetchType.EAGER)
         @JoinColumn(name = "product")
-        var product: Product,
+        var product: Product = Product(),
         @ManyToOne(fetch = FetchType.EAGER)
         @JoinColumn(name = "user")
-        var user: User,
+        var user: User = User(),
         var date: Date = Date(),
-        var content: String
+        var content: String = ""
 )

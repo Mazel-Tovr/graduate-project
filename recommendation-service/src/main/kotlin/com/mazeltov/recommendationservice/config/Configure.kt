@@ -1,19 +1,26 @@
 package com.mazeltov.recommendationservice.config
 
 
+import com.mazeltov.common.spring.*
 import org.springframework.beans.factory.annotation.*
 import org.springframework.beans.factory.config.*
 import org.springframework.boot.context.properties.*
 import org.springframework.boot.jdbc.*
 import org.springframework.boot.orm.jpa.*
 import org.springframework.context.annotation.*
+import org.springframework.core.io.*
+import org.springframework.core.io.support.*
 import org.springframework.data.jpa.repository.config.*
 import org.springframework.orm.jpa.*
 import org.springframework.transaction.*
 import org.springframework.transaction.annotation.*
+import java.io.*
+import java.util.*
+import java.util.function.*
+import java.util.stream.*
 import javax.persistence.*
 import javax.sql.*
-import com.mazeltov.common.spring.*
+
 
 @Configuration
 @PropertySources(value = [
@@ -33,25 +40,32 @@ private const val productDbProp = "spring.$productDb.datasource"
 private const val recommendationDb = "recommendationdb"
 private const val recommendationDbProp = "spring.$recommendationDb.datasource"
 
+private val hibernateProperties = mapOf(
+        "hibernate.dialect" to "org.hibernate.dialect.MySQL8Dialect",
+        "hibernate.ddl-auto" to "update",
+        "hibernate.show-sql" to "true"
+)
+
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(
-        entityManagerFactoryRef = "productdbEntityManagerFactory",
-        basePackages = ["com.mazeltov.recommendationservice.product"]
+        entityManagerFactoryRef = "${productDb}EntityManagerFactory",
+        transactionManagerRef = "${productDb}TransactionManager",
+        basePackages = ["com.mazeltov.recommendationservice.dao.product.repository"]
 )
 class ProductDbConfig {
     @Primary
     @Bean(name = [productDb])
     @ConfigurationProperties(prefix = productDbProp)//TODO possible i should change "datasource and productDb"
-    fun dataSource(): DataSource = DataSourceBuilder.create().build()
-    //TODO Switch to this if doesn't work
-    //return DataSourceBuilder.create()
-    //          .driverClassName("com.mysql.cj.jdbc.Driver")
-    //          .url("jdbc:mysql://localhost:3306/myDb")
-    //          .username("user1")
-    //          .password("pass")
-    //          .build();
+    fun dataSource(): DataSource //= DataSourceBuilder.create().build()
 
+            = DataSourceBuilder.create()
+            .driverClassName("com.mysql.cj.jdbc.Driver")
+            .url("jdbc:mysql://localhost:3305/productDatabase?useUnicode=true&serverTimezone=UTC")
+            .username("root")
+            .password("root")
+            .build();
+//TODO Switch to this if doesn't work
 
     @Primary
     @Bean(name = ["${productDb}EntityManagerFactory"])
@@ -60,7 +74,8 @@ class ProductDbConfig {
             @Qualifier(productDb) dataSource: DataSource
     ): LocalContainerEntityManagerFactoryBean = builder
             .dataSource(dataSource)
-            .packages("com.mazeltov.recommendationservice.product.model")
+            .properties(hibernateProperties)
+            .packages("com.mazeltov.recommendationservice.dao.product.model")
             .persistenceUnit("product")
             .build()
 
@@ -76,14 +91,21 @@ class ProductDbConfig {
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(
-        entityManagerFactoryRef = "recommendationDbEntityManagerFactory",
-        basePackages = ["com.mazeltov.recommendationservice.recommendation"]
+        entityManagerFactoryRef = "${recommendationDb}EntityManagerFactory",
+        transactionManagerRef = "${recommendationDb}TransactionManager",
+        basePackages = ["com.mazeltov.recommendationservice.dao.recommendation.repository"]
 )
 class RecommendationDbConfig {
 
     @Bean(name = [recommendationDb])
     @ConfigurationProperties(prefix = recommendationDbProp)//TODO possible i should change "datasource and recommendationDb"
-    fun dataSource(): DataSource = DataSourceBuilder.create().build()
+    fun dataSource(): DataSource =
+            DataSourceBuilder.create()
+                    .driverClassName("com.mysql.cj.jdbc.Driver")
+                    .url("jdbc:mysql://localhost:3311/recommendationDatabase?useUnicode=true&serverTimezone=UTC")
+                    .username("root")
+                    .password("root")
+                    .build();// DataSourceBuilder.create().build()
 
 
     @Bean(name = ["${recommendationDb}EntityManagerFactory"])
@@ -92,14 +114,16 @@ class RecommendationDbConfig {
             @Qualifier(recommendationDb) dataSource: DataSource
     ): LocalContainerEntityManagerFactoryBean = builder
             .dataSource(dataSource)
-            .packages("com.mazeltov.recommendationservice.recommendation.model")
+            .properties(hibernateProperties)
+            .packages("com.mazeltov.recommendationservice.dao.recommendation.model")
             .persistenceUnit("recommendation")
             .build()
 
 
     @Bean(name = ["${recommendationDb}TransactionManager"])
     fun transactionManager(
-            @Qualifier("recommendationdbEntityManagerFactory") entityManagerFactory: EntityManagerFactory
+            @Qualifier("${recommendationDb}EntityManagerFactory") entityManagerFactory: EntityManagerFactory
     ): PlatformTransactionManager = JpaTransactionManager(entityManagerFactory)
 
 }
+

@@ -2,6 +2,7 @@ package com.mazeltov.review.config
 
 import org.springframework.beans.factory.annotation.*
 import org.springframework.context.annotation.*
+import org.springframework.web.servlet.config.annotation.*
 import springfox.documentation.builders.*
 import springfox.documentation.builders.PathSelectors.*
 import springfox.documentation.spi.*

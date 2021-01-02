@@ -7,10 +7,9 @@ import javax.persistence.*
 data class User(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-       // @Column(name = "user_id")
         val id: Long = -1,
         @Column(unique = true)
-        val userId: Long,
+        val userId: Long = -1,
         @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
         var reviews: List<Review> = emptyList()
 )

@@ -3,12 +3,14 @@ package com.mazeltov.recommendationservice.dao.product.model
 import javax.persistence.*
 
 //TODO try make id val
+@Entity
+@Table(name = "group_variant")
 data class GroupVariant(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        var id:Long,
-        var name:String = "",
-        @ManyToOne(fetch = FetchType.LAZY)
-        @JoinColumn(name = "group_id")
-        var group: ProductGroup
+        @Column(name = "group_variant_id")
+        var id: Long = 0,
+        var name: String = "",
+        @OneToMany(mappedBy = "groupVariants", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
+        var productGroup: List<ProductGroup> = emptyList()
 )

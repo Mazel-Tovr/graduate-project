@@ -1,10 +1,10 @@
-api:
-  rout: /api
-  recomendation-service:
-    rout: ${api.rout}/recomendations
-    certain-count:
-      rout: ${api.recomendation-service.rout}/{count}
-  authorization-service :
-    rout: ${api.rout}/users
-    curent-user:
-      rout: ${authorization-service.rout}/{id}
+#api:
+#  rout: /api
+#  recomendation-service:
+#    rout: ${api.rout}/recomendations
+#    certain-count:
+#      rout: ${api.recomendation-service.rout}/{count}
+#  authorization-service :
+#    rout: ${api.rout}/users
+#    curent-user:
+#      rout: ${authorization-service.rout}/{id}

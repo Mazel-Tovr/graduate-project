@@ -2,15 +2,16 @@ package com.mazeltov.recommendationservice.dao.recommendation.model
 
 import javax.persistence.*
 
+@Entity
+@Table(name = "user_interested_in_group")
 data class UserInterestedInGroup(@Id
                                  @GeneratedValue(strategy = GenerationType.IDENTITY)
                                  var id: Long = -1,
                                  @ManyToOne(fetch = FetchType.EAGER)
-                                 @JoinColumn(name = "user_id")
+                                 @JoinColumn(name = "user")
                                  var user: User,
                                  @ManyToOne(fetch = FetchType.EAGER)
-                                 @JoinColumn(name = "user_id")
-                                 var group: ProductGroup,
-                                 @Column(name = "visit_time")
+                                 @JoinColumn(name = "product_group")
+                                 var productGroup: ProductGroup,
                                  var visitTime: Long = 0
 )

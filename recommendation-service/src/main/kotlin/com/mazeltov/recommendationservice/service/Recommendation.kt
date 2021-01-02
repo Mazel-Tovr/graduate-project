@@ -12,7 +12,6 @@ import org.springframework.stereotype.*
 @Service
 class Recommendation {
 
-
     @Autowired
     private lateinit var userRepository: UserRepository
 
@@ -37,9 +36,7 @@ class Recommendation {
     }
 
 
-    private fun getOrCreateUser(id: Long): User = userRepository.findByUserId(id).run {
-        if (isPresent) get() else userRepository.save(User(userId = id))
-    }
+    private fun getOrCreateUser(id: Long): User = userRepository.findByUserId(id) ?: userRepository.save(User(userId = id))
 
     private fun getOrCreateProductGroup(id: Long): ProductGroup = productGroupRepository.findByProductGroupId(id).run {
         if (isPresent) get() else productGroupRepository.save(ProductGroup(productGroupId = id))
@@ -47,7 +44,7 @@ class Recommendation {
 
     private fun getOrCreateUserInterestedInGroup(user: User, productGroup: ProductGroup): UserInterestedInGroup =
             userInterestedInGroupRepository.findByUserAndProductGroup(user, productGroup).run {
-                if (isPresent) get() else userInterestedInGroupRepository.save(UserInterestedInGroup(user = user, group = productGroup))
+                if (isPresent) get() else userInterestedInGroupRepository.save(UserInterestedInGroup(user = user, productGroup = productGroup))
             }
 
 }

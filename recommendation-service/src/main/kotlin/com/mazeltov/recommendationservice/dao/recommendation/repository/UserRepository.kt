@@ -8,5 +8,5 @@ import java.util.*
 @Repository
 interface UserRepository : JpaRepository<User, Long> {
 
-    fun findByUserId(userId: Long): Optional<User>
+    fun findByUserId(userId: Long): User?
 }
