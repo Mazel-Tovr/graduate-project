@@ -10,7 +10,7 @@ data class GroupVariant(
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         @Column(name = "group_variant_id")
         var id: Long = 0,
-        var name: String = "",
-        @OneToMany(mappedBy = "groupVariants", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
-        var productGroup: List<ProductGroup> = emptyList()
+        var name: String = ""//,
+//        @OneToMany(mappedBy = "groupVariants", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
+//        var productGroup: List<ProductGroup> = emptyList()
 )

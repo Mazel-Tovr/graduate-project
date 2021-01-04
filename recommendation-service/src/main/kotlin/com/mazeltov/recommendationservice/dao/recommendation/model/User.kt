@@ -8,6 +8,7 @@ import javax.persistence.*
 data class User(@Id
                 @GeneratedValue(strategy = GenerationType.IDENTITY)
                 var id: Long = -1,
-                var userId: Long
+                @Column(unique = true)
+                var userId: Long = -1
 )
 //TODO Mb add list of int to user wn

@@ -3,18 +3,23 @@ package com.mazeltov.common.dto
 import java.util.*
 
 data class ProductDto(
-        var id: Long = 0,
-        var name: String,
-        var created: Date,
-        var description: String,
-        var productGroupId: Long,
-        var isAvailable: Boolean
+        val id: Long = -1,
+        val name: String,
+        val created: Date,
+        val description: String,
+        val productGroupId: Long,
+        val isAvailable: Boolean
 )
 
 data class ReviewDto(
-        var id: Long = -1,
-        var productId: Long,
-        var userId: Long,
-        var date: Date,
-        var content: String
+        val id: Long = -1,
+        val productId: Long,
+        val userId: Long,
+        val date: Date,
+        val content: String
+)
+
+data class VisitDto(
+        val userId: Long,
+        val groupId: Long
 )

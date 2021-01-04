@@ -36,10 +36,10 @@ spring:
     name: RECOMMENDATION-SERVICE
   productdb:
     datasource:
-        url: jdbc:mysql://${db1.host}:${db1.port}/${db1.name}?useUnicode=true&serverTimezone=UTC
-        driver: com.mysql.Driver
-        username: root
-        password: root
+      url: jdbc:mysql://${db1.host}:${db1.port}/${db1.name}?useUnicode=true&serverTimezone=UTC
+      driver: com.mysql.Driver
+      username: root
+      password: root
   recomendationdb:
     datasource:
       url: jdbc:mysql://${db2.host}:${db2.port}/${db2.name}?useUnicode=true&serverTimezone=UTC
@@ -51,7 +51,8 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
+      hbm2ddl:
+        auto: update
       show-sql: true
       cache:
         use_query_cache: false
@@ -132,11 +133,11 @@ hystrix:
 
 api:
   rout: /api
-  recomendation-service:
-    rout: ${api.rout}/recomendations
-    certain-count:
-      rout: ${api.recomendation-service.rout}/{count}
-  authorization-service :
-    rout: ${api.rout}/users
-    curent-user:
-      rout: ${authorization-service.rout}/{id}
+  recommendation-service:
+    rout: ${api.rout}/recommendations
+    current-user:
+      rout: ${api.recommendation-service.rout}/{id}
+      certain-count:
+        rout: ${api.recommendation-service.current-user.rout}/{count}
+    visit:
+      rout: ${api.recommendation-service.rout}/visit

@@ -1,33 +1,36 @@
 package com.mazeltov.recommendationservice.controllers
 
+import com.mazeltov.common.dto.*
 import com.mazeltov.recommendationservice.dao.product.model.*
-import com.mazeltov.recommendationservice.dao.product.repository.*
-import com.mazeltov.recommendationservice.dao.recommendation.model.*
-import com.mazeltov.recommendationservice.dao.recommendation.model.ProductGroup
-import com.mazeltov.recommendationservice.dao.recommendation.repository.*
+import com.mazeltov.recommendationservice.service.*
 import org.springframework.beans.factory.annotation.*
+import org.springframework.http.*
 import org.springframework.web.bind.annotation.*
 
 @RestController
 class RecommendationController {
 
     @Autowired
-    private lateinit var productGroupRepository: ProductGroupRepository
-    @Autowired
-    private lateinit var productOperations: ProductOperations
+    private lateinit var recommendation: Recommendation
 
-    @GetMapping("\${api.rout}")
-    fun get(): List<ProductGroup> {
 
-       println("Hello mf")
-       return productGroupRepository.findAll()
+    @PostMapping("\${api.recommendation-service.rout}")
+    fun userViewedProduct(@RequestBody visitDto: VisitDto): ResponseEntity<Any> {
 
+        recommendation.userVisitGroup(visitDto.userId, visitDto.groupId)
+        return ResponseEntity(HttpStatus.OK)
     }
-    @GetMapping("/all")
-    fun geta(): List<Product> {
 
-       println("Hello mf1")
-       return productOperations.findAll()
+    @GetMapping("\${api.recommendation-service.current-user.rout}")
+    fun getRecommendations(@PathVariable(value = "id") userId: Long): List<Product> {
+        return recommendation.getRecommendations(userId)
+    }
 
+    @GetMapping("\${api.recommendation-service.current-user.certain-count.rout}")
+    fun getCertainAmountOfRecommendations(
+            @PathVariable(value = "id") userId: Long,
+            @PathVariable(value = "count") count: Int
+    ): List<Product> {
+        return recommendation.getRecommendations(userId, count)
     }
 }

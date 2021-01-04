@@ -25,7 +25,6 @@ class MySwaggerConfig {
     @Value("\${api.review-service.rout}")
     private lateinit var reviewService: String
 
-
     private fun paths(): Predicate<String> {
         return regex("/.*")
                 .or(regex("$reviewService.*"))

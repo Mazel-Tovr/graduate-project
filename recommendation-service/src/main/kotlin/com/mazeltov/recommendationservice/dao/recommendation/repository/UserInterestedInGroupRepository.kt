@@ -8,9 +8,9 @@ import java.util.*
 @Repository
 interface UserInterestedInGroupRepository : JpaRepository<UserInterestedInGroup, Long> {
 
-    //TODO test this //Check for nullable if userIntG is not present !!!!
-    fun findByUserAndProductGroup(user: User, productGroup: ProductGroup): Optional<UserInterestedInGroup>
+    fun findByUserAndProductGroup(user: User, productGroup: ProductGroup): UserInterestedInGroup?
 
     fun findAllByUserId(userId: Long): List<UserInterestedInGroup>
 
+    fun findFirstByUserOrderByVisitTimeDesc(user: User) : UserInterestedInGroup?
 }

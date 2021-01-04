@@ -41,8 +41,8 @@ private const val recommendationDb = "recommendationdb"
 private const val recommendationDbProp = "spring.$recommendationDb.datasource"
 
 private val hibernateProperties = mapOf(
-        "hibernate.dialect" to "org.hibernate.dialect.MySQL8Dialect",
-        "hibernate.ddl-auto" to "update",
+        "hibernate.dialect" to "org.hibernate.dialect.MySQL57Dialect",
+        "hibernate.hbm2ddl.auto" to "update",
         "hibernate.show-sql" to "true"
 )
 
@@ -57,15 +57,16 @@ class ProductDbConfig {
     @Primary
     @Bean(name = [productDb])
     @ConfigurationProperties(prefix = productDbProp)//TODO possible i should change "datasource and productDb"
-    fun dataSource(): DataSource //= DataSourceBuilder.create().build()
-
-            = DataSourceBuilder.create()
+    fun dataSource(
+            @Value("\${db1.host}") host: String,
+            @Value("\${db1.port}") port: String,
+            @Value("\${db1.name}") name: String
+    ): DataSource = DataSourceBuilder.create()
             .driverClassName("com.mysql.cj.jdbc.Driver")
-            .url("jdbc:mysql://localhost:3305/productDatabase?useUnicode=true&serverTimezone=UTC")
+            .url("jdbc:mysql://$host:$port/$name?useUnicode=true&serverTimezone=UTC")
             .username("root")
             .password("root")
             .build();
-//TODO Switch to this if doesn't work
 
     @Primary
     @Bean(name = ["${productDb}EntityManagerFactory"])
@@ -98,14 +99,17 @@ class ProductDbConfig {
 class RecommendationDbConfig {
 
     @Bean(name = [recommendationDb])
-    @ConfigurationProperties(prefix = recommendationDbProp)//TODO possible i should change "datasource and recommendationDb"
-    fun dataSource(): DataSource =
-            DataSourceBuilder.create()
-                    .driverClassName("com.mysql.cj.jdbc.Driver")
-                    .url("jdbc:mysql://localhost:3311/recommendationDatabase?useUnicode=true&serverTimezone=UTC")
-                    .username("root")
-                    .password("root")
-                    .build();// DataSourceBuilder.create().build()
+    @ConfigurationProperties(prefix = recommendationDbProp)
+    fun dataSource(
+            @Value("\${db2.host}") host: String,
+            @Value("\${db2.port}") port: String,
+            @Value("\${db2.name}") name: String
+    ): DataSource = DataSourceBuilder.create()
+            .driverClassName("com.mysql.cj.jdbc.Driver")
+            .url("jdbc:mysql://$host:$port/$name?useUnicode=true&serverTimezone=UTC")
+            .username("root")
+            .password("root")
+            .build();// DataSourceBuilder.create().build()
 
 
     @Bean(name = ["${recommendationDb}EntityManagerFactory"])

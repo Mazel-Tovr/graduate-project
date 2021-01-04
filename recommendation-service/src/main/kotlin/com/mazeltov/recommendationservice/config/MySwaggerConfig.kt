@@ -21,12 +21,12 @@ class MySwaggerConfig {
                 .build()
     }
 
-    @Value("\${api.review-service.rout}")
-    private lateinit var reviewService: String
+    @Value("\${api.recommendation-service.rout}")
+    private lateinit var recommendationService: String
 
 
     private fun paths(): Predicate<String> {
         return regex("/.*")
-                .or(regex("$reviewService.*"))
+                .or(regex("$recommendationService.*"))
     }
 }

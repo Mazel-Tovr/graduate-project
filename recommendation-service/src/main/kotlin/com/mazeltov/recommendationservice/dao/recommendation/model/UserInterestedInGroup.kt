@@ -9,9 +9,9 @@ data class UserInterestedInGroup(@Id
                                  var id: Long = -1,
                                  @ManyToOne(fetch = FetchType.EAGER)
                                  @JoinColumn(name = "user")
-                                 var user: User,
+                                 var user: User = User(),
                                  @ManyToOne(fetch = FetchType.EAGER)
                                  @JoinColumn(name = "product_group")
-                                 var productGroup: ProductGroup,
+                                 var productGroup: ProductGroup = ProductGroup(),
                                  var visitTime: Long = 0
 )

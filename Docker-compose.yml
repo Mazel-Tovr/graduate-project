@@ -74,13 +74,13 @@ services:
     volumes:
       - D:/GitHub/graduate-project/databases/recommendation/var/lib/mysql57-data:/var/lib/mysql
 
-#  eureka-server:
-#    build: eureka-server/
-#    container_name: eureka-server
-#    restart: always
-#    ports:
-#      - 8761:8761
-#    hostname: eureka-server
+  eureka-server:
+    build: eureka-server/
+    container_name: eureka-server
+    restart: always
+    ports:
+      - 8761:8761
+    hostname: eureka-server
 #
 #  gateway:
 #    build: gateway/

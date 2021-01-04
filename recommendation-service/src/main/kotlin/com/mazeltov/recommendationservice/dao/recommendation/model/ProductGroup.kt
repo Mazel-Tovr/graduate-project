@@ -7,4 +7,5 @@ import javax.persistence.*
 data class ProductGroup(@Id
                         @GeneratedValue(strategy = GenerationType.IDENTITY)
                         var id: Long = -1,
-                        var productGroupId: Long)
+                        @Column(unique = true)
+                        var productGroupId: Long = -1)

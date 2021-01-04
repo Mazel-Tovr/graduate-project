@@ -18,7 +18,7 @@ repositories {
 }
 
 extra["springCloudVersion"] = "Hoxton.BUILD-SNAPSHOT"
-//TODO SWAGGER
+
 dependencies {
 //	implementation("org.springframework.boot:spring-boot-starter-data-mongodb") tak v lenb izychatb eto vse , pustaya trata vremeni
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
