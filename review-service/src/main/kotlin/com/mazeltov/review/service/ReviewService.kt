@@ -5,6 +5,7 @@ import com.mazeltov.common.exception.*
 import com.mazeltov.review.models.*
 import com.mazeltov.review.repositories.*
 import org.springframework.beans.factory.annotation.*
+import org.springframework.data.domain.*
 import org.springframework.stereotype.*
 
 @Service
@@ -31,11 +32,7 @@ class ReviewService {
 
 
     fun getReviewsBetween(productId: Long, start: Int, finish: Int): List<ReviewDto> =
-            reviewOperations.findAllByProductId(productId).let { reviews ->
-                if (start > finish) return emptyList()
-                if (reviews.size < finish) return reviews.toDto()
-                reviews.subList(start, finish)
-            }.toDto()
+            reviewOperations.findAllByProductId(productId, PageRequest.of(start, finish)).toDto()
 
 
     fun addReview(productId: Long, review: ReviewDto): ReviewDto =

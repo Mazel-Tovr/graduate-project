@@ -8,16 +8,10 @@ import org.springframework.boot.context.properties.*
 import org.springframework.boot.jdbc.*
 import org.springframework.boot.orm.jpa.*
 import org.springframework.context.annotation.*
-import org.springframework.core.io.*
-import org.springframework.core.io.support.*
 import org.springframework.data.jpa.repository.config.*
 import org.springframework.orm.jpa.*
 import org.springframework.transaction.*
 import org.springframework.transaction.annotation.*
-import java.io.*
-import java.util.*
-import java.util.function.*
-import java.util.stream.*
 import javax.persistence.*
 import javax.sql.*
 

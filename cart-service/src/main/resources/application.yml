@@ -1,4 +1,4 @@
-`eureka:
+eureka:
   port: 8761
   address: localhost
 db:
@@ -19,7 +19,7 @@ db:
 
 server:
   port: 8071
-  adress: localhost
+  address: localhost
 #
 #Spring
 #
@@ -30,7 +30,7 @@ spring:
     url: jdbc:mysql://${db.host}:${db.port}/${db.name}?useUnicode=true&serverTimezone=UTC
     driver: com.mysql.Driver
     username: root
-    password:
+    password: root
     #initialization-mode: always
   jpa:
     hibernate:
@@ -45,13 +45,23 @@ spring:
           charSet: UTF-8
         hbm2ddl:
           import_files_sql_extractor: org.hibernate.tool.hbm2ddl.MultipleLinesSqlCommandExtractor
-        dialect: org.hibernate.dialect.MySQLDialect
+        dialect: org.hibernate.dialect.MySQL57Dialect
   http:
     multipart:
       max-file-size: 1500KB
       max-request-size: 1500KB
   main:
     allow-bean-definition-overriding: true
+
+logging:
+  level:
+    org:
+      hibernate:
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
+        SQL: DEBUG
 
 
 #
@@ -109,3 +119,11 @@ hystrix:
         isolation:
           semaphore:
             maxConcurrentRequests: 3
+api:
+  rout: /api
+  cart-service:
+    rout: ${api.rout}/carts
+    current:
+      rout: ${api.cart-service.rout}/{userId}
+      amount:
+        rout: ${api.cart-service.rout}/{cartId}/{amount}

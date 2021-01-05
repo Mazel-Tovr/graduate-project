@@ -1,0 +1,30 @@
+package com.mazeltov.cart.service.dao.model
+
+import java.io.*
+import javax.persistence.*
+
+
+@Entity
+@Table(name = "item_to_cart")
+data class ItemToCart(
+        @EmbeddedId
+        val id: ItemToCartKey = ItemToCartKey(),
+        @ManyToOne
+        @MapsId("cartId")
+        @JoinColumn(name = "cart_id",unique = false)
+        // @Column(name = "cart_id")
+        val cart: Cart = Cart(),
+        @ManyToOne(cascade = [CascadeType.ALL])
+        @MapsId("itemId")
+        @JoinColumn(name = "item_id")
+        // @Column(name = "item_id")
+        val item: CartItem = CartItem()
+)
+
+@Embeddable
+data class ItemToCartKey(
+        @Column(name = "cart_id")
+        var cartId: Long = -1,
+        @Column(name = "item_id")
+        var itemId: Long = -1
+) : Serializable
