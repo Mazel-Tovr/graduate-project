@@ -9,12 +9,12 @@ import javax.persistence.*
 data class ItemToCart(
         @EmbeddedId
         val id: ItemToCartKey = ItemToCartKey(),
-        @ManyToOne
+        @ManyToOne(cascade = [CascadeType.REFRESH])
         @MapsId("cartId")
-        @JoinColumn(name = "cart_id",unique = false)
+        @JoinColumn(name = "cart_id", unique = false)
         // @Column(name = "cart_id")
         val cart: Cart = Cart(),
-        @ManyToOne(cascade = [CascadeType.ALL])
+        @ManyToOne(cascade = [CascadeType.REMOVE,CascadeType.REFRESH])
         @MapsId("itemId")
         @JoinColumn(name = "item_id")
         // @Column(name = "item_id")

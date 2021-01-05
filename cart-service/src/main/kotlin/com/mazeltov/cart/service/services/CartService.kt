@@ -39,9 +39,10 @@ class CartService {
                     )
                     ).let { cartItem ->
                         itemToCartRepository.save(ItemToCart(cart = cart, item = cartItem))
-                        cart.cart.plus(cartItem) //doesn't work
                     }
-                    cart //doesn't work
+                    //cart //doesn't work
+                }.let {
+                    cartRepository.findById(cartId).get()
                 }
 
     }
@@ -50,12 +51,7 @@ class CartService {
     fun changeProductAmount(cartId: Long, cartItem: CartItem, newAmount: Int): Cart {
         itemToCartRepository.findByCartIdAndItemId(cartId, cartItem.id)?.let { itemToCart ->
             if (newAmount <= 0) {
-                cartRepository.findById(cartId).ifPresent {
-                    it.cart.minus(itemToCart.item)
-                    cartRepository.save(it)
-                }
                 itemToCartRepository.delete(itemToCart)
-                cartItemRepository.delete(itemToCart.item)//doesn't work
             } else cartItemRepository.save(itemToCart.item.copy(amount = newAmount))
         } ?: throw ItemNotInTheCartException("Item doesn't exist create it first")
 
