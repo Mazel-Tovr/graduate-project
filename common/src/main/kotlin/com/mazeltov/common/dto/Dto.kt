@@ -23,3 +23,4 @@ data class VisitDto(
         val userId: Long,
         val groupId: Long
 )
+

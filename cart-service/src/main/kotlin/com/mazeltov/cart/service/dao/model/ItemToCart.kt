@@ -12,12 +12,10 @@ data class ItemToCart(
         @ManyToOne(cascade = [CascadeType.REFRESH])
         @MapsId("cartId")
         @JoinColumn(name = "cart_id", unique = false)
-        // @Column(name = "cart_id")
         val cart: Cart = Cart(),
-        @ManyToOne(cascade = [CascadeType.REMOVE,CascadeType.REFRESH])
+        @ManyToOne(cascade = [CascadeType.REMOVE, CascadeType.REFRESH])
         @MapsId("itemId")
         @JoinColumn(name = "item_id")
-        // @Column(name = "item_id")
         val item: CartItem = CartItem()
 )
 

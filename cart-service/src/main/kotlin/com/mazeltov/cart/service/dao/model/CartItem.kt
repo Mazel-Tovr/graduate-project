@@ -10,13 +10,5 @@ data class CartItem(
         val id: Long = -1,
         val productId: Long = -1,
         val productGroupId: Long = -1,
-        val amount: Int = 1//,
-
-//        @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
-//        @JoinTable(
-//                name = "item_to_cart",
-//                joinColumns = [JoinColumn(name = "item_id")],
-//                inverseJoinColumns = [JoinColumn(name = "cart_id")]
-//        )
-//        val items: Set<Cart> = emptySet()
+        val amount: Int = 1
 )
