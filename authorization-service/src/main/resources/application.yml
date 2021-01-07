@@ -26,7 +26,7 @@ server:
 
 spring:
   application:
-    name: PRODUCT-SERVICE
+    name: AUTHORIZATION-SERVICE
   datasource:
     url: jdbc:mysql://${db.host}:${db.port}/${db.name}?useUnicode=true&serverTimezone=UTC
     driver: com.mysql.Driver
@@ -59,8 +59,7 @@ spring:
 #JWT
 #
 jwt:
-  header: Authentication
-  # 60 * 60 * 24 = 86400
+  header: Authorization
   expires_in: 86400
   secret: sgd34bwfAbfSBPpe0r8gwbg
   cookie: AUTH-TOKEN
@@ -84,3 +83,7 @@ eureka:
     ip-address: ${server.address}
     instance-id: ${server.address}:${server.port}
 
+api:
+  rout: /api
+  authorization-service:
+    rout: ${api.rout}/authorization

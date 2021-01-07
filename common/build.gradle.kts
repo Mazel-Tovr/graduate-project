@@ -12,6 +12,7 @@ repositories {
 dependencies {
     implementation(kotlin("stdlib"))
     compileOnly("org.springframework:spring-core:5.1.12.RELEASE")
+    compileOnly("org.springframework.security:spring-security-core:5.1.12.RELEASE")
     compileOnly("org.springframework:spring-beans:5.2.12.RELEASE")
     compileOnly("org.springframework:spring-context:5.2.12.RELEASE")
     compileOnly("org.springframework.boot:spring-boot:2.3.7.BUILD-SNAPSHOT")

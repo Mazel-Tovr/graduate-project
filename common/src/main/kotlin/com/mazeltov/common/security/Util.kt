@@ -1,4 +1,4 @@
-package com.mazeltov.common.util
+package com.mazeltov.common.security
 
 
 fun String.getUserIdFromToken(): Long? {
