@@ -87,3 +87,5 @@ api:
   rout: /api
   authorization-service:
     rout: ${api.rout}/authorization
+    admin:
+      rout: ${api.authorization-service.rout}/admin

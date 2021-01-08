@@ -2,6 +2,8 @@ package com.mazeltov.authorization.service.security;
 
 import com.fasterxml.jackson.databind.*;
 import com.mazeltov.authorization.service.dao.model.*;
+import com.mazeltov.common.spring.*;
+import org.slf4j.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.security.core.*;
 import org.springframework.security.web.authentication.*;
@@ -11,6 +13,9 @@ import javax.servlet.http.*;
 
 @Component
 public class AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
+
+    @InjectLogger
+    private Logger logger;
 
     @Value("${jwt.expires_in}")
     private int EXPIRES_IN;
@@ -27,7 +32,7 @@ public class AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccess
 
         clearAuthenticationAttributes(request);
         User user = (User) authentication.getPrincipal();
-        String jwt = tokenHelper.generateToken(user.getUsername());
+        String jwt = tokenHelper.generateToken(user.getUsername(), user.getAuthorities());
 
         UserTokenState userTokenState = new UserTokenState(jwt, EXPIRES_IN);
         try {
@@ -35,7 +40,7 @@ public class AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccess
             response.setContentType("application/json");
             response.getWriter().write(jwtResponse);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            logger.error(e.getMessage());
         }
     }
 

@@ -2,6 +2,7 @@ package com.mazeltov.authorization.service.config;
 
 import com.mazeltov.authorization.service.security.*;
 import com.mazeltov.authorization.service.service.*;
+import com.mazeltov.common.security.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.context.annotation.*;
 import org.springframework.http.*;
@@ -36,17 +37,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private AuthenticationFailureHandler authenticationFailureHandler;
 
+    @Value("${api.authorization-service.rout}")
+    private String authService;
+
+    @Value("${api.authorization-service.admin.rout}")
+    private String authServiceAdmin;
+
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
 
                 .addFilterBefore(jwtAuthenticationTokenFilter(), BasicAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers("/swagger-ui.html").permitAll()
-                .antMatchers("/swagger-ui.html/**").permitAll()
-                .antMatchers("/webjars/**").permitAll()
-                .antMatchers("/swagger-resources/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/").permitAll()
+                .antMatchers(HttpMethod.POST,authService).permitAll()
+                .antMatchers(HttpMethod.PATCH,authService).hasAnyRole(UserRole.ADMIN.name(),UserRole.USER.name())
+                .antMatchers(authServiceAdmin).hasRole(UserRole.ADMIN.name())
+
                 .anyRequest().authenticated()
                 .and().formLogin().successHandler(authenticationSuccessHandler)
                 .failureHandler(authenticationFailureHandler)

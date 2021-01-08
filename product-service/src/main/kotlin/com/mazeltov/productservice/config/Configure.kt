@@ -1,4 +1,4 @@
-package com.mazeltov.product.service.config
+package com.mazeltov.productservice.config
 
 import com.mazeltov.common.spring.*
 import org.springframework.beans.factory.config.*

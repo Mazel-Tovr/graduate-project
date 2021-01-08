@@ -22,6 +22,7 @@ extra["springCloudVersion"] = "Hoxton.BUILD-SNAPSHOT"
 dependencies {
 //	implementation("org.springframework.boot:spring-boot-starter-data-mongodb") tak v lenb izychatb eto vse , pustaya trata vremeni
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+	implementation("org.springframework.boot:spring-boot-starter-security")
 	runtimeOnly("mysql:mysql-connector-java")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")

@@ -1,5 +1,6 @@
 package com.mazeltov.common.dto
 
+import com.mazeltov.common.security.*
 import java.util.*
 
 data class ProductDto(
@@ -29,7 +30,6 @@ data class UserDto(
         val password: String,
         val name: String,
         val email: String
-
 )
 
 

@@ -59,7 +59,7 @@ spring:
 #JWT
 #
 jwt:
-  header: Authentication
+  header: Authorization
   # 60 * 60 * 24 = 86400
   expires_in: 86400
   secret: sgd34bwfAbfSBPpe0r8gwbg

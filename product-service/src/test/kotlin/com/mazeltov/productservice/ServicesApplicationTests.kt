@@ -1,10 +1,10 @@
-package com.mazeltov.product.service
+package com.mazeltov.productservice
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-class ProductServiceApplicationTests {
+class ServicesApplicationTests {
 
 	@Test
 	fun contextLoads() {

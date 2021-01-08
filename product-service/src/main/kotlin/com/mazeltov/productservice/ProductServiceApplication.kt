@@ -1,4 +1,4 @@
-package com.mazeltov.product.service
+package com.mazeltov.productservice
 
 import org.springframework.boot.*
 import org.springframework.boot.autoconfigure.*

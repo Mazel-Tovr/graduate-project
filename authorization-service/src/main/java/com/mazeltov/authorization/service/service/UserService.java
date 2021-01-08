@@ -10,6 +10,8 @@ import org.springframework.security.core.userdetails.*;
 import org.springframework.security.crypto.bcrypt.*;
 import org.springframework.stereotype.*;
 
+import javax.management.relation.*;
+
 @Service
 public class UserService implements UserDetailsService {
 
@@ -46,4 +48,32 @@ public class UserService implements UserDetailsService {
 
     }
 
+    public void editUser(UserDto userDto) throws PasswordsAreNotTheSameExistException, UsernameNotFoundException {
+
+        User user = userRepository
+                .findByUsername(userDto.getUserName())
+                .orElseThrow(() -> new UsernameNotFoundException(String.format("Username %s not found", userDto.getUserName())));
+
+        if (!user.getPassword().equals(bCryptPasswordEncoder.encode(userDto.getPassword())))
+            throw new PasswordsAreNotTheSameExistException("Passwords are different");
+
+        user.setName(userDto.getName());
+        user.setEmail(userDto.getEmail());
+        user.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
+
+        userRepository.save(user);
+    }
+
+    public void editRole(String userName, String role) throws PasswordsAreNotTheSameExistException, UsernameNotFoundException {
+
+        User user = userRepository
+                .findByUsername(userName)
+                .orElseThrow(() -> new UsernameNotFoundException(String.format("Username %s not found", userName)));
+
+        user.setRole(UserRole.valueOf(role.toUpperCase()));
+
+        userRepository.save(user);
+    }
+
 }
+

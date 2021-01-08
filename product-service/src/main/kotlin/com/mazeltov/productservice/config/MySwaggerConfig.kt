@@ -1,4 +1,4 @@
-package com.mazeltov.product.service.config
+package com.mazeltov.productservice.config
 
 import org.springframework.beans.factory.annotation.*
 import org.springframework.context.annotation.*

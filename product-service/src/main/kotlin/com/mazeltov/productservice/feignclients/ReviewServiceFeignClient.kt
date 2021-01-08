@@ -1,4 +1,4 @@
-package com.mazeltov.product.service.feignclients
+package com.mazeltov.productservice.feignclients
 
 import com.mazeltov.common.dto.*
 import com.mazeltov.common.spring.*

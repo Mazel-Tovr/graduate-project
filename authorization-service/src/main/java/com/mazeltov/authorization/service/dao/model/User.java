@@ -90,6 +90,10 @@ public class User implements UserDetails {
         isEnabled = enabled;
     }
 
+    public void setRole(UserRole role) {
+        this.role = role;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return role.grantedAuthorities();

@@ -1,4 +1,4 @@
-package com.mazeltov.product.service.models
+package com.mazeltov.productservice.models
 
 import java.util.*
 import javax.persistence.*
