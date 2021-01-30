@@ -9,38 +9,34 @@ import javax.servlet.http.*
 
 class TokenVerificationFilter(private val authHeader: String, private val authSecret: String) : OncePerRequestFilter() {
 
-    override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, filterChain: FilterChain) {
+    override fun doFilterInternal(
+        request: HttpServletRequest,
+        response: HttpServletResponse,
+        filterChain: FilterChain
+    ) {
 
-        val authToken: String? = getToken(request, authHeader)
-
-        if (authToken != null) {
-
-            if (authToken.verifyJWT(authSecret)) {
-                val role = authToken.getRoleFromToken(authSecret)
-                if (role != null) {
-                    SecurityContextHolder.getContext().authentication = Authenticated(role.grantedAuthorities(), authToken)
-                } else {
-                    setNotAuthenticate()
+        getToken(request, authHeader)?.let { token ->
+            token.takeIf { it.verifyJWT(authSecret) }?.run {
+                getRoleFromToken(authSecret)?.let { role ->
+                    SecurityContextHolder.getContext().authentication =
+                        Authenticated(role.grantedAuthorities(), token)
                 }
-            } else {
-                setNotAuthenticate()
             }
+        } ?: setNotAuthenticate()
 
-        } else {
-            setNotAuthenticate()
-        }
 
         filterChain.doFilter(request, response)
     }
 
     private fun setNotAuthenticate() {
         SecurityContextHolder.getContext()
-                .authentication = AnonAuthentication()
+            .authentication = AnonAuthentication()
     }
 
 }
 
-private class Authenticated(authorities: Collection<GrantedAuthority>, val token: String) : AbstractAuthenticationToken(authorities) {
+private class Authenticated(authorities: Collection<GrantedAuthority>, val token: String) :
+    AbstractAuthenticationToken(authorities) {
     override fun isAuthenticated(): Boolean {
         return true
     }
