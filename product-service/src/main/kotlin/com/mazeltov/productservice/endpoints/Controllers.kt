@@ -23,12 +23,8 @@ class ProductController {
     private lateinit var logger: Logger
 
     @GetMapping("\${api.products.rout}")
-    fun getAll(): List<Product> {
-//        logger.info("I am here")
-//        val technique = groupVariant.save(GroupVariant(name = "technique"))
-//        val phone = productGroupOperations.save(ProductGroup(name = "Phone", groupVariants = technique))
-//        productOperations.save(Product(name = "product", productGroup = phone, amount = 0, price = 200))
-        return productOperations.findAll()
+    fun getAllProductsByProductGroup(@PathVariable(value = "groupId") groupId: Long) {
+
     }
 
 }

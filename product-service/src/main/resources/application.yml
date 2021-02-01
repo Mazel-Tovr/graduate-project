@@ -127,15 +127,15 @@ hystrix:
 api:
   rout: /api
   products:
-    rout: ${api.rout}/products
+    rout: ${api.rout}/{groupId}/products
     current:
       rout: ${api.products.rout}/{id}
   group:
-    rout: ${api.rout}/groups
+    rout: ${api.rout}/{groupVariantId}/groups
     current:
       rout: ${api.group.rout}/{id}
-  groupVariant:
-    rout: ${api.rout}/groupVariant
+  group-variant:
+    rout: ${api.rout}/group-variant
     current:
       rout: ${api.groupVariant.rout}/{id}
   review-service:

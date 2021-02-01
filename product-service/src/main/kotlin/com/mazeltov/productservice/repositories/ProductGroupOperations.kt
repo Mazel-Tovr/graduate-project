@@ -6,5 +6,7 @@ import org.springframework.data.jpa.repository.*
 import org.springframework.stereotype.*
 
 @Repository
-interface ProductGroupOperations : JpaRepository<ProductGroup,Long> {
+interface ProductGroupOperations : JpaRepository<ProductGroup, Long> {
+    fun findByGroupVariantId(groupVariantId: Long): List<ProductGroup>
+    fun findByIdAndGroupVariantId(groupId: Long, GroupVariantId: Long): ProductGroup?
 }
