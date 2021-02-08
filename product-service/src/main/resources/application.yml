@@ -130,15 +130,15 @@ api:
     rout: ${api.rout}/{groupId}/products
     current:
       rout: ${api.products.rout}/{id}
-  group:
+  groups:
     rout: ${api.rout}/{groupVariantId}/groups
     current:
-      rout: ${api.group.rout}/{id}
-  group-variant:
-    rout: ${api.rout}/group-variant
+      rout: ${api.groups.rout}/{id}
+  group-variants:
+    rout: ${api.rout}/group-variants
     current:
-      rout: ${api.groupVariant.rout}/{id}
-  review-service:
+      rout: ${api.group-variants.rout}/{id}
+  review-services:
     rout: ${api.rout}/{product}/reviews
     current:
-      rout: ${api.review-service.rout}/{id}
+      rout: ${api.review-services.rout}/{id}

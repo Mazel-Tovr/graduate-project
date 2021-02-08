@@ -93,7 +93,7 @@ class ProductGroupService {
     }?.toDto()
         ?: throw GroupVariantDoesNotExistException("Group variant with such id=${groupVariantId} doesn't exist")
 
-    fun removeProduct(
+    fun removeProductGroup(
         groupId: Long,
         groupVariantId: Long
     ) = productGroupOperations.findByIdAndGroupVariantId(groupId, groupVariantId)
@@ -106,12 +106,28 @@ class ProductGroupService {
 }
 
 @Service
-class ProductGroupVariantService {
+class GroupVariantService {
+
     @Autowired
     private lateinit var groupVariantOperations: GroupVariantOperations
 
-    fun getAllGroupVariant(): List<GroupVariant> {
-        return groupVariantOperations.findAll()
-    }
+    fun getAllGroupVariant(): List<GroupVariantDto> = groupVariantOperations.findAll().toDto()
+
+    fun getCurrentProductGroup(
+        groupVariantId: Long
+    ): GroupVariantDto = groupVariantOperations.findById(groupVariantId)
+        .orElseThrow { GroupVariantDoesNotExistException("Group variant with such id=${groupVariantId} doesn't exist") }
+        .toDto()
+
+    fun addGroupVariant(
+        groupVariantDto: GroupVariantDto
+    ): GroupVariantDto = groupVariantOperations.save(GroupVariant(name = groupVariantDto.name)).toDto()
+
+    fun removeGroupVariant(groupVariantId: Long) = groupVariantOperations.deleteById(groupVariantId)
+
+    private fun List<GroupVariant>.toDto() = map { it.toDto() }
+
+    private fun GroupVariant.toDto() = GroupVariantDto(id, name)
+
 }
 

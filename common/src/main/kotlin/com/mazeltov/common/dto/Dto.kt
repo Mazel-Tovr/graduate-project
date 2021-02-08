@@ -19,6 +19,11 @@ data class ProductGroupDto(
     val groupVariantsId: Long
 )
 
+data class GroupVariantDto(
+    val id: Long = -1,
+    val name: String
+)
+
 data class ReviewDto(
     val id: Long = -1,
     val productId: Long,
