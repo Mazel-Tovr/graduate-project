@@ -1,4 +1,4 @@
-package com.mazeltov.review.service.config
+package com.mazeltov.recommendationservice.config
 
 import org.springframework.beans.factory.annotation.*
 import org.springframework.context.annotation.*
@@ -27,6 +27,6 @@ class MySwaggerConfig {
 
     private fun paths(): Predicate<String> {
         return regex("/.*")
-                .or(regex("$recommendationService.*"))
+                .or(regex("$recommendationService/.*"))
     }
 }

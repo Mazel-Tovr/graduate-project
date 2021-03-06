@@ -24,6 +24,7 @@ server:
 #Spring
 #
 
+
 spring:
   application:
     name: AUTHORIZATION-SERVICE

@@ -7,9 +7,7 @@ import org.springframework.context.annotation.*
 
 @Configuration
 @EnableConfigurationProperties
-@PropertySources(value = [
-    PropertySource("classpath:routs.yml")]
-)
+@PropertySources()
 class Configure {
 
 

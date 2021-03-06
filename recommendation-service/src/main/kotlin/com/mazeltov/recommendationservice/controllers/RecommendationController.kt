@@ -13,10 +13,8 @@ class RecommendationController {
     @Autowired
     private lateinit var recommendation: Recommendation
 
-
     @PostMapping("\${api.recommendation-service.rout}")
     fun userViewedProduct(@RequestBody visitDto: VisitDto): ResponseEntity<Any> {
-
         recommendation.userVisitGroup(visitDto.userId, visitDto.groupId)
         return ResponseEntity(HttpStatus.OK)
     }

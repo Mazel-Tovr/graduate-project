@@ -26,7 +26,7 @@ server:
 #
 spring:
   application:
-    name: RECOMMENDATION-SERVICE
+    name: REVIEW-SEVICE
   datasource:
     url: jdbc:mysql://${db.host}:${db.port}/${db.name}?useUnicode=true&serverTimezone=UTC
     driver: com.mysql.Driver
@@ -113,8 +113,19 @@ hystrix:
 api:
   rout: /api
   review-service:
-    rout: ${api.rout}/{product}/reviews
+    rout: ${api.rout}/{productId}/reviews
     current:
       rout: ${api.review-service.rout}/{id}
     between:
       rout: ${api.review-service.rout}/between
+
+
+#
+#JWT
+#
+jwt:
+  header: Authorization
+  # 60 * 60 * 24 = 86400
+  expires_in: 86400
+  secret: sgd34bwfAbfSBPpe0r8gwbg
+  cookie: AUTH-TOKEN

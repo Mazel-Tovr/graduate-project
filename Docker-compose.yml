@@ -1,7 +1,5 @@
 version: "3.1"
 
-
-
 services:
   product-database:
     image: mysql:5.7
@@ -11,7 +9,7 @@ services:
       MYSQL_DATABASE: productDatabase
     ports:
       - 3305:3306
-#    hostname: product-database
+    hostname: product-database
     volumes:
       - D:/GitHub/graduate-project/databases/product/var/lib/mysql57-data:/var/lib/mysql
 
@@ -23,7 +21,7 @@ services:
       MYSQL_DATABASE: userDatabase
     ports:
       - 3307:3306
-#    hostname: user-database
+    hostname: user-database
     volumes:
       - D:/GitHub/graduate-project/databases/user/var/lib/mysql57-data:/var/lib/mysql
 
@@ -35,7 +33,7 @@ services:
       MYSQL_DATABASE: reviewDatabase
     ports:
       - 3308:3306
-#    hostname: review-database
+    hostname: review-database
     volumes:
       - D:/GitHub/graduate-project/databases/review/var/lib/mysql57-data:/var/lib/mysql
 
@@ -47,7 +45,7 @@ services:
       MYSQL_DATABASE: cartDatabase
     ports:
       - 3309:3306
-#    hostname: cart-database
+    hostname: cart-database
     volumes:
       - D:/GitHub/graduate-project/databases/cart/var/lib/mysql57-data:/var/lib/mysql
 
@@ -59,7 +57,7 @@ services:
       MYSQL_DATABASE: orderDatabase
     ports:
       - 3310:3306
-#    hostname: order-database
+    hostname: order-database
     volumes:
       - D:/GitHub/graduate-project/databases/order/var/lib/mysql57-data:/var/lib/mysql
   recommendation-database:
@@ -70,7 +68,7 @@ services:
       MYSQL_DATABASE: recommendationDatabase
     ports:
       - 3311:3306
-#    hostname: recommendation-database
+    hostname: recommendation-database
     volumes:
       - D:/GitHub/graduate-project/databases/recommendation/var/lib/mysql57-data:/var/lib/mysql
 
@@ -81,25 +79,39 @@ services:
     ports:
       - 8761:8761
     hostname: eureka-server
-#
-#  gateway:
-#    build: gateway/
-#    container_name: gateway
-#    restart: always
-#    ports:
-#      - 8762:8762
-#    depends_on:
-#      - eureka-server
-#
-#  product-service:
-#    build: product-service/
-#    restart: always
-#    container_name: product-service
-#    ports:
-#      - 8089:8089
-#    hostname: product-service
-#    depends_on:
-#      - gateway
-#      - eureka-server
-#    links:
-#      - product-database
+
+  gateway:
+    build: gateway/
+    container_name: gateway
+    restart: always
+    ports:
+      - 8762:8762
+    depends_on:
+      - eureka-server
+
+  product-service:
+    build: product-service/
+    restart: always
+    container_name: product-service
+    ports:
+      - 8089:8089
+    hostname: product-service
+    depends_on:
+      - gateway
+      - eureka-server
+    links:
+      - product-database
+
+# TODO doesn't work whyyyy
+  authorization-service:
+    build: authorization-service/
+    restart: always
+    container_name: authorization-service
+    ports:
+      - 8091:8091
+    hostname: authorization-service
+    depends_on:
+      - gateway
+      - eureka-server
+    links:
+      - user-database

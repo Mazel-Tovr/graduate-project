@@ -71,13 +71,13 @@ class ProductGroupService {
     fun getCurrentProductGroup(
         groupId: Long,
         groupVariantId: Long
-    ): ProductGroupDto = productGroupOperations.findByIdAndGroupVariantId(groupId, groupVariantId)?.toDto()
+    ): ProductGroupDto = productGroupOperations.findByIdAndGroupVariantsId(groupId, groupVariantId)?.toDto()
         ?: throw ProductDoesNotExistException("Product group with such id=${groupId} doesn't exist")
 
 
     fun getAllProductGroupsByGroupVariant(
         groupVariantId: Long
-    ): List<ProductGroupDto> = productGroupOperations.findByGroupVariantId(groupVariantId).toDto()
+    ): List<ProductGroupDto> = productGroupOperations.findByGroupVariantsId(groupVariantId).toDto()
 
 
     fun addProductGroup(
@@ -96,7 +96,7 @@ class ProductGroupService {
     fun removeProductGroup(
         groupId: Long,
         groupVariantId: Long
-    ) = productGroupOperations.findByIdAndGroupVariantId(groupId, groupVariantId)
+    ) = productGroupOperations.findByIdAndGroupVariantsId(groupId, groupVariantId)
         ?.let { productGroupOperations.delete(it) }
 
     private fun List<ProductGroup>.toDto() = map { it.toDto() }

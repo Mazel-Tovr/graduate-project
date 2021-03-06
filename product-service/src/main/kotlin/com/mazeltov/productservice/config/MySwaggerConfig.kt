@@ -24,10 +24,10 @@ class MySwaggerConfig {
     @Value("\${api.products.rout}")
     private lateinit var product: String
 
-    @Value("\${api.products.rout}")
+    @Value("\${api.groups.rout}")
     private lateinit var group: String
 
-    @Value("\${api.products.rout}")
+    @Value("\${api.group-variants.rout}")
     private lateinit var groupVariant: String
 
 

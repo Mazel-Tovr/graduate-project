@@ -16,14 +16,15 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
     @Value("\${api.products.rout}")
     private lateinit var products: String
 
-    @Value("\${api.review-service.rout}")
+    @Value("\${api.review-services.rout}")
     private lateinit var reviewService: String
 
-    @Value("\${api.groupVariant.rout}")
+    @Value("\${api.group-variants.rout}")
     private lateinit var groupVariant: String
 
-    @Value("\${api.group.rout}")
+    @Value("\${api.groups.rout}")
     private lateinit var group: String
+
 
     @Value("\${jwt.secret}")
     private lateinit var secret: String
@@ -43,9 +44,11 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
                 .antMatchers(HttpMethod.GET, products).permitAll()//.hasAnyRole(USER.name,ADMIN.name)
                 .antMatchers(HttpMethod.POST, reviewService.plus("/**")).hasAnyRole(USER.name, ADMIN.name)
                 .antMatchers(HttpMethod.PATCH, reviewService.plus("/**")).hasAnyRole(USER.name, ADMIN.name)
+                .antMatchers(HttpMethod.DELETE, reviewService.plus("/**")).hasAnyRole(USER.name, ADMIN.name)
                 .antMatchers(HttpMethod.POST, groupVariant.plus("/**")).hasAnyRole(USER.name, ADMIN.name)
                 .antMatchers(HttpMethod.PATCH, groupVariant.plus("/**")).hasAnyRole(USER.name, ADMIN.name)
                 .antMatchers(HttpMethod.POST, group.plus("/**")).hasAnyRole(USER.name, ADMIN.name)
+                .antMatchers(HttpMethod.PATCH, group.plus("/**")).hasAnyRole(USER.name, ADMIN.name)
                 .antMatchers(HttpMethod.PATCH, group.plus("/**")).hasAnyRole(USER.name, ADMIN.name)
                 .anyRequest().authenticated()
                 .and().csrf().disable()

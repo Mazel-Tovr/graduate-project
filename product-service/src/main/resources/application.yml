@@ -139,6 +139,8 @@ api:
     current:
       rout: ${api.group-variants.rout}/{id}
   review-services:
-    rout: ${api.rout}/{product}/reviews
+    rout: ${api.rout}/{productId}/reviews
+    between:
+      rout: ${api.review-services.rout}/between
     current:
       rout: ${api.review-services.rout}/{id}

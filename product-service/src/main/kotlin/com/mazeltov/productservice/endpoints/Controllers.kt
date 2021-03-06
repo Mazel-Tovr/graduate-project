@@ -3,6 +3,7 @@ package com.mazeltov.productservice.endpoints
 import com.mazeltov.common.dto.*
 import com.mazeltov.common.response.ResponseBody
 import com.mazeltov.common.spring.*
+import com.mazeltov.productservice.feignclients.*
 import com.mazeltov.productservice.services.*
 import org.slf4j.*
 import org.springframework.beans.factory.annotation.*
@@ -37,7 +38,7 @@ class ProductController {
     @PostMapping("\${api.products.rout}")
     fun addProduct(
         @PathVariable(value = "groupId") groupId: Long,
-        productDto: ProductDto
+        @RequestBody productDto: ProductDto
     ) = try {
         productService.addProduct(groupId, productDto)
     } catch (e: Exception) {
@@ -59,7 +60,7 @@ class ProductGroupController {
     @Autowired
     private lateinit var productGroupService: ProductGroupService
 
-    @InjectLogger(ProductController::class)
+    @InjectLogger(ProductGroupController::class)
     private lateinit var logger: Logger
 
     @GetMapping("\${api.groups.rout}")
@@ -81,7 +82,7 @@ class ProductGroupController {
     @PostMapping("\${api.groups.rout}")
     fun addProductGroup(
         @PathVariable(value = "groupVariantId") groupVariantId: Long,
-        productGroupDto: ProductGroupDto
+        @RequestBody productGroupDto: ProductGroupDto
     ) = try {
         productGroupService.addProductGroup(groupVariantId, productGroupDto)
     } catch (e: Exception) {
@@ -98,6 +99,82 @@ class ProductGroupController {
     }
 }
 
+@RestController
+class GroupVariantController {
+    @Autowired
+    private lateinit var groupVariantService: GroupVariantService
 
-fun Any.wrapToResponseEntity(httpStatus: HttpStatus = HttpStatus.OK) = ResponseEntity<Any>(this, httpStatus)
+    @InjectLogger(GroupVariantController::class)
+    private lateinit var logger: Logger
+
+    @GetMapping("\${api.group-variants.rout}")
+    fun getAllGroupVariant() = groupVariantService.getAllGroupVariant()
+
+    @GetMapping("\${api.group-variants.current.rout}")
+    fun getCurrentGroupVariant(
+        @PathVariable(value = "id") groupVariantId: Long
+    ) = groupVariantService.getCurrentProductGroup(groupVariantId)
+
+    @PostMapping("\${api.group-variants.rout}")
+    fun addGroupVariant(
+        @RequestBody groupVariantDto: GroupVariantDto
+    ) = groupVariantService.addGroupVariant(groupVariantDto)
+
+    @DeleteMapping("\${api.group-variants.current.rout}")
+    fun removeGroupVariant(
+        @PathVariable(value = "id") groupVariantId: Long
+    ) = groupVariantService.removeGroupVariant(groupVariantId)
+
+}
+
+@RestController
+class ReviewController {
+
+    @Autowired
+    private lateinit var reviewServiceFeignClient: ReviewServiceFeignClient
+
+    @InjectLogger(ReviewController::class)
+    private lateinit var logger: Logger
+
+    @GetMapping("\${api.review-services.rout}")
+    fun getAllReviews(
+        @PathVariable(value = "productId") productId: Long
+    ): List<ReviewDto> = reviewServiceFeignClient.getAllReviews(productId)
+
+    @GetMapping("\${api.review-services.current.rout}")
+    fun getReviewById(
+        @PathVariable(value = "productId") productId: Long,
+        @PathVariable(value = "id") reviewId: Long
+    ): ResponseEntity<Any> = reviewServiceFeignClient.getReviewById(productId, reviewId)
+
+    @GetMapping("\${api.review-services.between.rout}")
+    fun getReviewsBetween(
+        @PathVariable(value = "productId") productId: Long,
+        @RequestParam(value = "start") start: Int,
+        @RequestParam(value = "finish") finish: Int
+    ): List<ReviewDto> =
+        reviewServiceFeignClient.getReviewsBetween(productId, start, finish)
+
+    @PostMapping("\${api.review-services.rout}")
+    fun addReview(
+        @PathVariable(value = "productId") productId: Long,
+        @RequestBody review: ReviewDto
+    ): ResponseEntity<Any> = reviewServiceFeignClient.addReview(productId, review)
+
+    @PatchMapping("\${api.review-services.current.rout}")
+    fun editReview(
+        @PathVariable(value = "productId") productId: Long,
+        @RequestBody review: ReviewDto
+    ): ResponseEntity<Any> = reviewServiceFeignClient.editReview(productId, review)
+
+    @DeleteMapping("\${api.review-services.current.rout}")
+    fun deleteReview(
+        @PathVariable(value = "productId") productId: Long,
+        @PathVariable(value = "id") reviewId: Long
+    ): ResponseEntity<Any> = reviewServiceFeignClient.deleteReview(productId, reviewId)
+
+
+}
+
+internal fun Any.wrapToResponseEntity(httpStatus: HttpStatus = HttpStatus.OK) = ResponseEntity<Any>(this, httpStatus)
 

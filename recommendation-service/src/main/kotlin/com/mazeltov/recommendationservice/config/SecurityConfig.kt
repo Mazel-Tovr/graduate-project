@@ -19,6 +19,10 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
     @Value("\${jwt.header}")
     private lateinit var header: String
 
+    @Value("\${api.recommendation-service.rout}")
+    private lateinit var recommendationService: String
+
+
     @Bean
     fun tokenVerificationFilter(): TokenVerificationFilter {
         return TokenVerificationFilter(header, secret)
@@ -26,10 +30,10 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
 
     override fun configure(http: HttpSecurity) {
         http
-                .addFilterBefore(tokenVerificationFilter(), BasicAuthenticationFilter::class.java)
-                .authorizeRequests()
-                .antMatchers("/").permitAll()
-                .anyRequest().authenticated()
-                .and().csrf().disable()
+            .addFilterBefore(tokenVerificationFilter(), BasicAuthenticationFilter::class.java)
+            .authorizeRequests()
+            .antMatchers(recommendationService.plus("/*")).hasAnyRole(ADMIN.name, USER.name)
+            .anyRequest().authenticated()
+            .and().csrf().disable()
     }
 }

@@ -1,4 +1,4 @@
-FROM openjdk:11.0.6-jre
+FROM openjdk:8-jre-alpine
 
 RUN mkdir /authorization-service
 
