@@ -1,10 +1,12 @@
 package com.mazeltov.productservice.endpoints
 
+import com.mazeltov.common.*
 import com.mazeltov.common.dto.*
 import com.mazeltov.common.response.ResponseBody
 import com.mazeltov.common.spring.*
 import com.mazeltov.productservice.feignclients.*
 import com.mazeltov.productservice.services.*
+import kotlinx.coroutines.*
 import org.slf4j.*
 import org.springframework.beans.factory.annotation.*
 import org.springframework.http.*
@@ -15,6 +17,15 @@ class ProductController {
 
     @Autowired
     private lateinit var productService: ProductService
+
+    @Autowired
+    private lateinit var recommendationServiceFeignClient: RecommendationServiceFeignClient
+
+    @Value("\${jwt.secret}")
+    private lateinit var secret: String
+
+    @Value("\${jwt.header}")
+    private lateinit var header: String
 
     @InjectLogger(ProductController::class)
     private lateinit var logger: Logger
@@ -28,11 +39,24 @@ class ProductController {
     fun getCurrentProductByProductGroup(
         @PathVariable(value = "groupId") groupId: Long,
         @PathVariable(value = "id") productId: Long
-    ): ResponseEntity<Any> = try {
-        productService.getCurrentProduct(groupId, productId).wrapToResponseEntity()
-    } catch (e: Exception) {
-        e.message?.wrapToResponseEntity(HttpStatus.BAD_REQUEST) ?: ResponseBody.RESOURCE_NOT_FOUND("Product")
-            .wrapToResponseEntity(HttpStatus.BAD_REQUEST)
+    ): ResponseEntity<Any> {
+        val response = mutableMapOf<String, Any?>()
+
+        val userName = getUserIdFromRequest(header, secret)
+        val visited = GlobalScope.launch {
+            recommendationServiceFeignClient.userViewedProduct(VisitDto(userName, productId));
+        }
+        val recommendations = GlobalScope.async {
+            recommendationServiceFeignClient.getRecommendations(userName);
+        }
+
+        response["Product"] = runCatching {
+            productService.getCurrentProduct(groupId, productId)
+        }.getOrElse {
+           it.message
+        }
+        response["recommends"] = runBlocking { visited.join(); recommendations.await() }
+        return response.wrapToResponseEntity()
     }
 
     @PostMapping("\${api.products.rout}")
@@ -175,6 +199,7 @@ class ReviewController {
 
 
 }
+
 
 internal fun Any.wrapToResponseEntity(httpStatus: HttpStatus = HttpStatus.OK) = ResponseEntity<Any>(this, httpStatus)
 

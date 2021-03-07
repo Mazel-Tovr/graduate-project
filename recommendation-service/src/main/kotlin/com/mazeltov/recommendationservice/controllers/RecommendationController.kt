@@ -14,21 +14,24 @@ class RecommendationController {
     private lateinit var recommendation: Recommendation
 
     @PostMapping("\${api.recommendation-service.rout}")
-    fun userViewedProduct(@RequestBody visitDto: VisitDto): ResponseEntity<Any> {
-        recommendation.userVisitGroup(visitDto.userId, visitDto.groupId)
-        return ResponseEntity(HttpStatus.OK)
+    fun userViewedProduct(@RequestBody visitDto: VisitDto?): ResponseEntity<Any> {
+        visitDto?.let {
+            recommendation.userVisitGroup(it.userName, it.groupId)
+            return ResponseEntity(HttpStatus.OK)
+        }
+        return ResponseEntity("Guest user", HttpStatus.OK)
     }
 
     @GetMapping("\${api.recommendation-service.current-user.rout}")
-    fun getRecommendations(@PathVariable(value = "id") userId: Long): List<Product> {
-        return recommendation.getRecommendations(userId)
+    fun getRecommendations(@PathVariable(value = "userName") userName: String?): List<Product> {
+        return recommendation.getRecommendations(userName)
     }
 
     @GetMapping("\${api.recommendation-service.current-user.certain-count.rout}")
     fun getCertainAmountOfRecommendations(
-            @PathVariable(value = "id") userId: Long,
-            @PathVariable(value = "count") count: Int
+        @PathVariable(value = "userName") userName: String?,
+        @PathVariable(value = "count") count: Int
     ): List<Product> {
-        return recommendation.getRecommendations(userId, count)
+        return recommendation.getRecommendations(userName, count)
     }
 }

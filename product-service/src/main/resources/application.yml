@@ -144,3 +144,11 @@ api:
       rout: ${api.review-services.rout}/between
     current:
       rout: ${api.review-services.rout}/{id}
+  recommendation-service:
+    rout: ${api.rout}/recommendations
+    current-user:
+      rout: ${api.recommendation-service.rout}/{id}
+      certain-count:
+        rout: ${api.recommendation-service.current-user.rout}/{count}
+    visit:
+      rout: ${api.recommendation-service.rout}/visit

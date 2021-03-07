@@ -33,7 +33,7 @@ data class ReviewDto(
 )
 
 data class VisitDto(
-    val userId: Long,
+    val userName: String?,
     val groupId: Long
 )
 

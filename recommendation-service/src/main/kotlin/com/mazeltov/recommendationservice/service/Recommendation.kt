@@ -25,35 +25,43 @@ class Recommendation {
     @Autowired
     private lateinit var userInterestedInGroupRepository: UserInterestedInGroupRepository
 
-    fun userVisitGroup(userId: Long, groupId: Long) {
-        val user = getOrCreateUser(userId)
-        val group = getOrCreateProductGroup(groupId)
-        getOrCreateUserInterestedInGroup(user, group).let { userInterestedInGroup ->
-            userInterestedInGroup.visitTime++
-            userInterestedInGroupRepository.save(userInterestedInGroup)
+    fun userVisitGroup(userName: String?, groupId: Long) {
+        userName?.let {
+            val user = getOrCreateUser(userName)
+            val group = getOrCreateProductGroup(groupId)
+            getOrCreateUserInterestedInGroup(user, group).let { userInterestedInGroup ->
+                userInterestedInGroup.visitTime++
+                userInterestedInGroupRepository.save(userInterestedInGroup)
+            }
         }
     }
 
-    fun getRecommendations(userId: Long, count: Int = 5): List<Product> {
+    fun getRecommendations(userName: String?, count: Int = 5): List<Product> {
+        userName?.let {
+            val groupId =
+                userInterestedInGroupRepository.findFirstByUserOrderByVisitTimeDesc(getOrCreateUser(it))?.productGroup?.id
+                    ?: productOperations.getRandomProduct().firstOrNull()?.productGroup?.id
+                    ?: throw EmptyDdExistException("Database is Empty")
 
-        val groupId = userInterestedInGroupRepository.findFirstByUserOrderByVisitTimeDesc(getOrCreateUser(userId))?.productGroup?.id
-                ?: productOperations.getRandomProduct().firstOrNull()?.productGroup?.id
-                ?: throw EmptyDdExistException("Database is Empty")
-
+            return productOperations.getRandomProductByProductGroup(groupId, PageRequest.of(0, count))
+        }
+        val groupId = productOperations.getRandomProduct().firstOrNull()?.productGroup?.id
+            ?: throw EmptyDdExistException("Database is Empty")
         return productOperations.getRandomProductByProductGroup(groupId, PageRequest.of(0, count))
+
     }
 
 
-    private fun getOrCreateUser(id: Long): User = userRepository.findByUserId(id)
-            ?: userRepository.save(User(userId = id))
+    private fun getOrCreateUser(userName: String): User = userRepository.findByUserName(userName)
+        ?: userRepository.save(User(userName = userName))
 
     private fun getOrCreateProductGroup(id: Long): ProductGroup = productGroupRepository.findByProductGroupId(id)
-            ?: productGroupRepository.save(ProductGroup(productGroupId = id))
+        ?: productGroupRepository.save(ProductGroup(productGroupId = id))
 
 
     private fun getOrCreateUserInterestedInGroup(user: User, productGroup: ProductGroup): UserInterestedInGroup =
-            userInterestedInGroupRepository.findByUserAndProductGroup(user, productGroup)
-                    ?: userInterestedInGroupRepository.save(UserInterestedInGroup(user = user, productGroup = productGroup))
+        userInterestedInGroupRepository.findByUserAndProductGroup(user, productGroup)
+            ?: userInterestedInGroupRepository.save(UserInterestedInGroup(user = user, productGroup = productGroup))
 
 
 }
