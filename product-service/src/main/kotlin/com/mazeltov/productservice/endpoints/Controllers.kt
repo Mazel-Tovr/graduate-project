@@ -132,22 +132,24 @@ class GroupVariantController {
     private lateinit var logger: Logger
 
     @GetMapping("\${api.group-variants.rout}")
-    fun getAllGroupVariant() = groupVariantService.getAllGroupVariant()
+    fun getAllGroupVariant() = groupVariantService.getAllGroupVariant().wrapToResponseEntity()
 
     @GetMapping("\${api.group-variants.current.rout}")
     fun getCurrentGroupVariant(
         @PathVariable(value = "id") groupVariantId: Long
-    ) = groupVariantService.getCurrentProductGroup(groupVariantId)
+    ) = groupVariantService.getCurrentProductGroup(groupVariantId).wrapToResponseEntity()
 
     @PostMapping("\${api.group-variants.rout}")
     fun addGroupVariant(
         @RequestBody groupVariantDto: GroupVariantDto
-    ) = groupVariantService.addGroupVariant(groupVariantDto)
+    ) = groupVariantService.addGroupVariant(groupVariantDto).wrapToResponseEntity()
 
     @DeleteMapping("\${api.group-variants.current.rout}")
     fun removeGroupVariant(
         @PathVariable(value = "id") groupVariantId: Long
-    ) = groupVariantService.removeGroupVariant(groupVariantId)
+    ) = groupVariantService.removeGroupVariant(groupVariantId).let {
+        "Group variant deleted".wrapToResponseEntity()
+    }
 
 }
 

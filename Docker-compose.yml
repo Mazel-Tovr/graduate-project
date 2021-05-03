@@ -7,8 +7,9 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: productDatabase
+      MYSQL_TCP_PORT: 3305
     ports:
-      - 3305:3306
+      - 3305:3305
     hostname: product-database
     volumes:
       - D:/GitHub/graduate-project/databases/product/var/lib/mysql57-data:/var/lib/mysql
@@ -19,9 +20,9 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: userDatabase
+      MYSQL_TCP_PORT: 3312
     ports:
-      - 3307:3306
-    hostname: user-database
+      - 3312:3312
     volumes:
       - D:/GitHub/graduate-project/databases/user/var/lib/mysql57-data:/var/lib/mysql
 
@@ -31,9 +32,9 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: reviewDatabase
+      MYSQL_TCP_PORT: 3308
     ports:
-      - 3308:3306
-    hostname: review-database
+      - 3308:3308
     volumes:
       - D:/GitHub/graduate-project/databases/review/var/lib/mysql57-data:/var/lib/mysql
 
@@ -43,9 +44,9 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: cartDatabase
+      MYSQL_TCP_PORT: 3309
     ports:
-      - 3309:3306
-    hostname: cart-database
+      - 3309:3309
     volumes:
       - D:/GitHub/graduate-project/databases/cart/var/lib/mysql57-data:/var/lib/mysql
 
@@ -55,20 +56,21 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: orderDatabase
+      MYSQL_TCP_PORT: 3310
     ports:
-      - 3310:3306
-    hostname: order-database
+      - 3310:3310
     volumes:
       - D:/GitHub/graduate-project/databases/order/var/lib/mysql57-data:/var/lib/mysql
+
   recommendation-database:
     image: mysql:5.7
-    restart: always
+#    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: recommendationDatabase
+      MYSQL_TCP_PORT: 3311
     ports:
-      - 3311:3306
-    hostname: recommendation-database
+      - 3311:3311
     volumes:
       - D:/GitHub/graduate-project/databases/recommendation/var/lib/mysql57-data:/var/lib/mysql
 
@@ -91,7 +93,7 @@ services:
 
   product-service:
     build: product-service/
-    restart: always
+#    restart: always
     container_name: product-service
     ports:
       - 8089:8089
@@ -102,10 +104,9 @@ services:
     links:
       - product-database
 
-# TODO doesn't work whyyyy
   authorization-service:
     build: authorization-service/
-    restart: always
+#    restart: always
     container_name: authorization-service
     ports:
       - 8091:8091
@@ -115,3 +116,57 @@ services:
       - eureka-server
     links:
       - user-database
+
+
+  cart-service:
+    build: cart-service/
+#    restart: always
+    container_name: cart-service
+    ports:
+      - 8100:8100
+    hostname: cart-service
+    depends_on:
+      - gateway
+      - eureka-server
+    links:
+      - cart-database
+
+  review-service:
+    build: review-service/
+#    restart: always
+    container_name: review-service
+    ports:
+      - 8101:8101
+    hostname: review-service
+    depends_on:
+      - gateway
+      - eureka-server
+    links:
+      - review-database
+
+  order-service:
+    build: order-service/
+#    restart: always
+    container_name: order-service
+    ports:
+      - 8102:8102
+    hostname: order-service
+    depends_on:
+      - gateway
+      - eureka-server
+    links:
+      - order-database
+
+  recommendation-service:
+    build: recommendation-service/
+#    restart: always
+    container_name: recommendation-service
+    ports:
+      - 8103:8103
+    hostname: recommendation-service
+    depends_on:
+      - gateway
+      - eureka-server
+    links:
+      - recommendation-database
+      - product-database

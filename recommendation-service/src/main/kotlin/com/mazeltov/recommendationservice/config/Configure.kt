@@ -17,9 +17,6 @@ import javax.sql.*
 
 
 @Configuration
-@PropertySources(value = [
-    PropertySource("classpath:routs.yml")]
-)
 class Configure {
 
     @Bean

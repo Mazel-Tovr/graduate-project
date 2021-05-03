@@ -6,6 +6,7 @@ import com.mazeltov.productservice.repositories.*
 import org.springframework.beans.factory.annotation.*
 import org.springframework.cloud.openfeign.*
 import org.springframework.http.*
+import org.springframework.stereotype.*
 import org.springframework.web.bind.annotation.*
 
 @FeignClient(
@@ -27,6 +28,7 @@ interface RecommendationServiceFeignClient {
         @PathVariable(value = "count") count: Int
     ): List<Product>
 
+    @Component
     class RecommendationServiceDefaultRealisation : RecommendationServiceFeignClient {
         @Autowired
         private lateinit var productOperations: ProductOperations

@@ -62,6 +62,6 @@ public class TokenHelper {
     }
 
     private Date generateExpirationDate() {
-        return new Date(getCurrentTimeMillis() + this.EXPIRES_IN * 1000);
+        return new Date(getCurrentTimeMillis() + this.EXPIRES_IN * 1000L);
     }
 }

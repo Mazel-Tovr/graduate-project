@@ -2,7 +2,7 @@ eureka:
   port: 8761
   address: localhost
 db:
-  port: 3307
+  port: 3312
   host: localhost
   name: userDatabase
 ---
@@ -12,7 +12,7 @@ eureka:
   port: 8761
   address: eureka-server
 db:
-  port: 3307
+  port: 3312
   host: user-database
   name: userDatabase
 ---
@@ -23,7 +23,6 @@ server:
 #
 #Spring
 #
-
 
 spring:
   application:

@@ -141,3 +141,10 @@ api:
         rout: ${api.recommendation-service.current-user.rout}/{count}
     visit:
       rout: ${api.recommendation-service.rout}/visit
+
+jwt:
+  header: Authorization
+  # 60 * 60 * 24 = 86400
+  expires_in: 86400
+  secret: sgd34bwfAbfSBPpe0r8gwbg
+  cookie: AUTH-TOKEN
