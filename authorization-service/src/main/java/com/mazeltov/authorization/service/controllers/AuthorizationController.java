@@ -38,9 +38,9 @@ public class AuthorizationController {
     }
 
     @PatchMapping("${api.authorization-service.admin.rout}")
-    private ResponseEntity<Object> editUserRole(@RequestParam(value = "username") String userName, @RequestParam(value = "role") String role) {
+    private ResponseEntity<Object> editUserAsAdmin(@RequestBody UserForAdminDto userDto) {
         try {
-            userService.editRole(userName, role);
+            userService.editUserAsAdmin(userDto);
             return new ResponseEntity<>("User successfully edited", HttpStatus.OK);
         } catch (PasswordsAreNotTheSameExistException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

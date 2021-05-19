@@ -46,6 +46,26 @@ class ProductService {
     }?.toDto()
         ?: throw ProductGroupDoesNotExistException("Product group with such id=${productDto.productGroupId} doesn't exist")
 
+    fun editProduct(
+        productGroupId: Long,
+        productId: Long,
+        productDto: ProductDto
+    ): ProductDto = productOperations.findById(productId).takeIf { it.isPresent }?.let {
+        productGroupOperations.findById(productGroupId).takeIf { it.isPresent }?.run {
+            productOperations.save(it.get().copy(
+                name = productDto.name,
+                created = productDto.created,
+                description = productDto.description,
+                productGroup = this.get(),
+                amount = productDto.amount,
+                price = productDto.price
+            ))
+        }
+            ?: throw ProductGroupDoesNotExistException("Product group with such id=${productDto.productGroupId} doesn't exist")
+    }?.toDto()
+        ?: throw ProductDoesNotExistException("Product group with such id=${productDto.productGroupId} doesn't exist")
+
+
     fun removeProduct(
         productGroupId: Long,
         productId: Long
@@ -90,8 +110,18 @@ class ProductGroupService {
                 groupVariants = it.get()
             )
         })
-    }?.toDto()
-        ?: throw GroupVariantDoesNotExistException("Group variant with such id=${groupVariantId} doesn't exist")
+    }?.toDto() ?: throw GroupVariantDoesNotExistException("Group variant with such id=${groupVariantId} doesn't exist")
+
+    fun editProductGroup(
+        groupVariantId: Long,
+        productId: Long,
+        productGroupDto: ProductGroupDto
+    ): ProductGroupDto = productGroupOperations.findById(productId).takeIf { it.isPresent }?.let {
+        groupVariantOperations.findById(groupVariantId).takeIf { it.isPresent }?.run {
+            productGroupOperations.save(it.get().copy(name = productGroupDto.name, groupVariants = this.get()))
+        } ?: throw GroupVariantDoesNotExistException("Group variant with such id=${groupVariantId} doesn't exist")
+    }?.toDto() ?: throw ProductGroupDoesNotExistException("Product group with such id=${productId} doesn't exist")
+
 
     fun removeProductGroup(
         groupId: Long,
@@ -122,6 +152,13 @@ class GroupVariantService {
     fun addGroupVariant(
         groupVariantDto: GroupVariantDto
     ): GroupVariantDto = groupVariantOperations.save(GroupVariant(name = groupVariantDto.name)).toDto()
+
+    fun editGroupVariant(
+        groupVariantId: Long,
+        groupVariantDto: GroupVariantDto
+    ): GroupVariantDto = groupVariantOperations.findById(groupVariantId).takeIf { it.isPresent }?.let {
+        groupVariantOperations.save(it.get().copy(name = groupVariantDto.name)).toDto()
+    } ?: throw GroupVariantDoesNotExistException("Group variant with such id=${groupVariantId} doesn't exist")
 
     fun removeGroupVariant(groupVariantId: Long) = groupVariantOperations.deleteById(groupVariantId)
 

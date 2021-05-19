@@ -41,7 +41,9 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
         http
                 .addFilterBefore(tokenVerificationFilter(), BasicAuthenticationFilter::class.java)
                 .authorizeRequests()
-                .antMatchers(HttpMethod.GET, products).permitAll()//.hasAnyRole(USER.name,ADMIN.name)
+                .antMatchers(HttpMethod.POST, "$products/**").hasAnyRole(USER.name, ADMIN.name)
+                .antMatchers(HttpMethod.DELETE, "$products/**").hasAnyRole(USER.name, ADMIN.name)
+                .antMatchers(HttpMethod.PATCH, "$products/**").hasAnyRole(USER.name, ADMIN.name)
                 .antMatchers(HttpMethod.POST, "$reviewService/**").hasAnyRole(USER.name, ADMIN.name)
                 .antMatchers(HttpMethod.PATCH, "$reviewService/**").hasAnyRole(USER.name, ADMIN.name)
                 .antMatchers(HttpMethod.DELETE, "$reviewService/**").hasAnyRole(USER.name, ADMIN.name)
@@ -49,7 +51,7 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
                 .antMatchers(HttpMethod.PATCH, "$groupVariant/**").hasAnyRole(USER.name, ADMIN.name)
                 .antMatchers(HttpMethod.POST, "$group/**").hasAnyRole(USER.name, ADMIN.name)
                 .antMatchers(HttpMethod.PATCH, "$group/**").hasAnyRole(USER.name, ADMIN.name)
-                .antMatchers(HttpMethod.PATCH, "$group/**").hasAnyRole(USER.name, ADMIN.name)
+                .antMatchers(HttpMethod.DELETE, "$group/**").hasAnyRole(USER.name, ADMIN.name)
                 .anyRequest().authenticated()
                 .and().csrf().disable()
     }

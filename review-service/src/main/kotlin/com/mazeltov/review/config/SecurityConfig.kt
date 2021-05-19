@@ -23,7 +23,7 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
     fun tokenVerificationFilter(): TokenVerificationFilter {
         return TokenVerificationFilter(header, secret)
     }
-
+    //TODO set up config
     override fun configure(http: HttpSecurity) {
         http
                 .addFilterBefore(tokenVerificationFilter(), BasicAuthenticationFilter::class.java)

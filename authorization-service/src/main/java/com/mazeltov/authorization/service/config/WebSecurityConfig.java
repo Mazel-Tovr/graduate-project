@@ -50,12 +50,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .addFilterBefore(jwtAuthenticationTokenFilter(), BasicAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST,authService).permitAll()
-                .antMatchers(HttpMethod.PATCH,authService).hasAnyRole(UserRole.ADMIN.name(),UserRole.USER.name())
+                .antMatchers(HttpMethod.POST, authService).permitAll()
+                .antMatchers(HttpMethod.PATCH, authService).hasAnyRole(UserRole.ADMIN.name(), UserRole.USER.name())
                 .antMatchers(authServiceAdmin).hasRole(UserRole.ADMIN.name())
-
                 .anyRequest().authenticated()
-                .and().formLogin().successHandler(authenticationSuccessHandler)
+                .and().formLogin().loginProcessingUrl(authService + "/login").successHandler(authenticationSuccessHandler)
                 .failureHandler(authenticationFailureHandler)
                 // From https://github.com/bfwg/springboot-jwt-starter
                 .and().csrf().disable();

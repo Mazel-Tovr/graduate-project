@@ -13,11 +13,13 @@ server:
   address: localhost
 
 cart-service:
-  id: CARTSERVICE
+  id: CART-SERVICE
 product-service:
-  id: PRODUCTSERVICE
+  id: PRODUCT-SERVICE
 order-service:
-  id: ORDERSERVICE
+  id: ORDER-SERVICE
+authorization-service:
+  id: AUTHORIZATION-SERVICE
 
 spring:
   application:
@@ -58,6 +60,10 @@ zuule:
     order-service:
       path: /api/orders/**
       serviceId: ${order-service.id}
+      stripPrefix: false
+    authorization-service:
+      path: /api/authorization/**
+      serviceId: ${authorization-service.id}
       stripPrefix: false
 
 
