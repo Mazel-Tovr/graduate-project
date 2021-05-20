@@ -1,9 +1,8 @@
 package com.mazeltov.productservice.config
 
-import com.google.common.collect.*
+import com.mazeltov.common.swagger.*
 import org.springframework.beans.factory.annotation.*
 import org.springframework.context.annotation.*
-import org.springframework.http.*
 import springfox.documentation.builders.*
 import springfox.documentation.builders.PathSelectors.*
 import springfox.documentation.service.*
@@ -38,17 +37,6 @@ class MySwaggerConfig {
 
     @Value("\${api.group-variants.rout}")
     private lateinit var groupVariant: String
-
-    private fun securityContext(): List<SecurityContext> {
-        return listOf(SecurityContext.builder().securityReferences(defaultAuth()).build())
-    }
-
-    private fun defaultAuth(): List<SecurityReference?> {
-        val authorizationScope = AuthorizationScope("global", "accessEverything")
-        val authorizationScopes = arrayOfNulls<AuthorizationScope>(1)
-        authorizationScopes[0] = authorizationScope
-        return listOf(SecurityReference("JWT", authorizationScopes))
-    }
 
     private fun paths(): Predicate<String> {
         return regex("/.*")

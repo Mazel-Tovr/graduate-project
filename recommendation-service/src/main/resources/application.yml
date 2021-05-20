@@ -47,8 +47,6 @@ spring:
       username: root
       password: root
       # initialization-mode: always
-
-
   jpa:
     hibernate:
       hbm2ddl:
@@ -136,7 +134,7 @@ api:
   recommendation-service:
     rout: ${api.rout}/recommendations
     current-user:
-      rout: ${api.recommendation-service.rout}/{id}
+      rout: ${api.recommendation-service.rout}/{userName}
       certain-count:
         rout: ${api.recommendation-service.current-user.rout}/{count}
     visit:

@@ -20,4 +20,6 @@ dependencies {
     compileOnly("org.apache.tomcat.embed:tomcat-embed-core:9.0.41")
     implementation("io.jsonwebtoken:jjwt:0.9.0")
     compileOnly("org.slf4j:slf4j-api:1.7.30")
+    compileOnly("io.springfox:springfox-swagger2:3.0.0")
+    compileOnly("io.springfox:springfox-swagger-ui:2.9.2")
 }

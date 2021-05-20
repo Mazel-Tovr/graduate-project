@@ -5,13 +5,13 @@ import org.springframework.context.annotation.*;
 import springfox.documentation.builders.*;
 import springfox.documentation.service.*;
 import springfox.documentation.spi.*;
-import springfox.documentation.spi.service.contexts.*;
 import springfox.documentation.spring.web.plugins.*;
 import springfox.documentation.swagger2.annotations.*;
 
 import java.util.*;
 import java.util.function.*;
 
+import static com.mazeltov.common.swagger.ConfigKt.*;
 import static springfox.documentation.builders.PathSelectors.*;
 
 @Configuration
@@ -33,16 +33,6 @@ public class MySwaggerConfig {
     @Value("${api.authorization-service.rout}")
     private String authorizationService;
 
-    private List<SecurityContext> securityContext() {
-        return Collections.singletonList(SecurityContext.builder().securityReferences(defaultAuth()).build());
-    }
-
-    private List<SecurityReference> defaultAuth() {
-        AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
-        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
-        authorizationScopes[0] = authorizationScope;
-        return Collections.singletonList(new SecurityReference("JWT", authorizationScopes));
-    }
 
     private Predicate<String> paths() {
         return regex("/.*")
