@@ -2,9 +2,15 @@ package com.mazeltov.productservice.services
 
 import com.mazeltov.common.dto.*
 import com.mazeltov.common.exception.*
+import com.mazeltov.common.spring.*
+import com.mazeltov.productservice.endpoints.*
+import com.mazeltov.productservice.feignclients.*
 import com.mazeltov.productservice.models.*
 import com.mazeltov.productservice.repositories.*
+import kotlinx.coroutines.*
+import org.slf4j.*
 import org.springframework.beans.factory.annotation.*
+import org.springframework.http.*
 import org.springframework.stereotype.*
 
 @Service
@@ -16,6 +22,11 @@ class ProductService {
     @Autowired
     private lateinit var productGroupOperations: ProductGroupOperations
 
+    @Autowired
+    private lateinit var cartServiceFeignClient: CartServiceFeignClient
+
+    @InjectLogger()
+    private lateinit var logger: Logger
 
     fun getCurrentProduct(
         productGroupId: Long,
@@ -52,14 +63,22 @@ class ProductService {
         productDto: ProductDto
     ): ProductDto = productOperations.findById(productId).takeIf { it.isPresent }?.let {
         productGroupOperations.findById(productGroupId).takeIf { it.isPresent }?.run {
-            productOperations.save(it.get().copy(
+            val product = it.get()
+            val async = if (productDto.price != product.price) GlobalScope.async {
+                cartServiceFeignClient.updatePricesInAllCarts(productDto)
+            } else null
+            productOperations.save(product.copy(
                 name = productDto.name,
                 created = productDto.created,
                 description = productDto.description,
                 productGroup = this.get(),
                 amount = productDto.amount,
                 price = productDto.price
-            ))
+            )).also {
+                runBlocking {
+                    async?.await()?.takeIf { it.statusCode == HttpStatus.OK }
+                }?.let { logger.warn("Product in cart service doesn't update price") }
+            }
         }
             ?: throw ProductGroupDoesNotExistException("Product group with such id=${productDto.productGroupId} doesn't exist")
     }?.toDto()

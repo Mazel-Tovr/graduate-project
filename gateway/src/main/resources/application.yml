@@ -33,16 +33,12 @@ eureka:
       defaultZone: http://${eureka.address}:${eureka.port}/eureka
   server:
     waitTimeInMsWhenSyncEmpty: 0
-  healthcheck:
-    enabled: true
   instance:
-    prefer-ip-address: true
-    lease-expiration-duration-in-seconds: 15
-    lease-renewal-interval-in-seconds: 5
     ip-address: ${server.address}
     instance-id: ${server.address}:${server.port}
 
-zuule:
+zuul:
+  sensitiveHeaders: Cookie,Set-Cookie
   host:
     socket-timeout-millis: 60000
     connect-timeout-millis: 60000
@@ -54,11 +50,11 @@ zuule:
       serviceId: ${cart-service.id}
       stripPrefix: false
     product-service:
-      path: /api/products/**
+      path: /api/prod/**
       serviceId: ${product-service.id}
       stripPrefix: false
     order-service:
-      path: /api/orders/**
+      path: /api/ord/**
       serviceId: ${order-service.id}
       stripPrefix: false
     authorization-service:
@@ -74,7 +70,7 @@ hystrix:
       execution:
         isolation:
           thread:
-            timeoutInMilliseconds: 11000
+            timeoutInMilliseconds: 40000
 
 ribbon:
   ConnectTimeout: 10000

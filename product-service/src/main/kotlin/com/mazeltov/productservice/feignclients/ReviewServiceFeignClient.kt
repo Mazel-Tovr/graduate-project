@@ -1,5 +1,6 @@
 package com.mazeltov.productservice.feignclients
 
+import com.mazeltov.common.*
 import com.mazeltov.common.dto.*
 import com.mazeltov.common.spring.*
 import com.mazeltov.productservice.endpoints.*
@@ -48,7 +49,7 @@ interface ReviewServiceFeignClient {
         }
 
         override fun getReviewById(productId: Long, reviewId: Long): ResponseEntity<Any> {
-            return "Service is not available".wrapToResponseEntity(HttpStatus.BAD_REQUEST)
+            return "Service is not available".toResponseEntity(HttpStatus.BAD_REQUEST)
         }
 
         override fun getReviewsBetween(productId: Long, start: Int, finish: Int): List<ReviewDto> {
@@ -56,15 +57,15 @@ interface ReviewServiceFeignClient {
         }
 
         override fun addReview(productId: Long, review: ReviewDto): ResponseEntity<Any> {
-            return "Service is not available".wrapToResponseEntity(HttpStatus.BAD_REQUEST)
+            return "Service is not available".toResponseEntity(HttpStatus.BAD_REQUEST)
         }
 
         override fun editReview(productId: Long, review: ReviewDto): ResponseEntity<Any> {
-            return "Service is not available".wrapToResponseEntity(HttpStatus.BAD_REQUEST)
+            return "Service is not available".toResponseEntity(HttpStatus.BAD_REQUEST)
         }
 
         override fun deleteReview(productId: Long, reviewId: Long): ResponseEntity<Any> {
-            return "Service is not available".wrapToResponseEntity(HttpStatus.BAD_REQUEST)
+            return "Service is not available".toResponseEntity(HttpStatus.BAD_REQUEST)
         }
 
     }

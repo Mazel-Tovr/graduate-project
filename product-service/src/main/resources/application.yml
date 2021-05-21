@@ -32,7 +32,7 @@ spring:
     driver: com.mysql.Driver
     username: root
     password: root
-   # initialization-mode: always
+    # initialization-mode: always
   jpa:
     hibernate:
       ddl-auto: update
@@ -96,6 +96,8 @@ product-availabillity-service:
   name: PRODUCT-AVAILABILLITY-SERVICE
 review-service:
   name: REVIEW-SEVICE
+cart-service:
+  name: CART-SERVICE
 #
 #Ribbon planning to make server load balancer to review, recommendation, availability services
 #
@@ -125,7 +127,7 @@ hystrix:
             maxConcurrentRequests: 3
 
 api:
-  rout: /api
+  rout: /api/prod
   products:
     rout: ${api.rout}/{groupId}/products
     current:
@@ -139,16 +141,26 @@ api:
     current:
       rout: ${api.group-variants.rout}/{id}
   review-services:
-    rout: ${api.rout}/{productId}/reviews
+    rout: ${api.rout}/rew/{productId}/reviews
     between:
       rout: ${api.review-services.rout}/between
     current:
       rout: ${api.review-services.rout}/{id}
   recommendation-service:
-    rout: ${api.rout}/recommendations
+    rout: ${api.rout}/rec/recommendations
     current-user:
       rout: ${api.recommendation-service.rout}/{id}
       certain-count:
         rout: ${api.recommendation-service.current-user.rout}/{count}
     visit:
       rout: ${api.recommendation-service.rout}/visit
+  cart-service:
+    carts:
+      rout: /api/cart/carts
+#
+logging:
+  level:
+    com.mazeltov: DEBUG
+#    root: DEBUG
+#    org.springframework.web: DEBUG
+#    hibernate: INFO

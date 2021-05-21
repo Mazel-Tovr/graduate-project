@@ -34,7 +34,7 @@ spring:
     #initialization-mode: always
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
       show-sql: true
       cache:
         use_query_cache: false
@@ -124,7 +124,7 @@ hystrix:
           semaphore:
             maxConcurrentRequests: 3
 api:
-  rout: /api
+  rout: /api/ord
   order-service:
     rout: ${api.rout}/orders
     user-orders:

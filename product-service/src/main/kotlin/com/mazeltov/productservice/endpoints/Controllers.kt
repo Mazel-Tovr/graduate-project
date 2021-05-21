@@ -33,7 +33,7 @@ class ProductController {
     @GetMapping("\${api.products.rout}")
     fun getAllProductsByProductGroup(
         @PathVariable(value = "groupId") groupId: Long
-    ) = productService.getAllProductsByProductGroup(groupId).wrapToResponseEntity()
+    ) = productService.getAllProductsByProductGroup(groupId).toResponseEntity()
 
     @GetMapping("\${api.products.current.rout}")
     fun getCurrentProductByProductGroup(
@@ -41,8 +41,9 @@ class ProductController {
         @PathVariable(value = "id") productId: Long
     ): ResponseEntity<Any> {
         val response = mutableMapOf<String, Any?>()
-
+        logger.debug("Getting product by id=$productId")
         val userName = getUserIdFromRequest(header, secret)
+        logger.debug("User from request $userName")
         val visited = GlobalScope.launch {
             recommendationServiceFeignClient.userViewedProduct(VisitDto(userName, productId));
         }
@@ -56,7 +57,7 @@ class ProductController {
             it.message
         }
         response["recommends"] = runBlocking { visited.join(); recommendations.await() }
-        return response.wrapToResponseEntity()
+        return response.toResponseEntity()
     }
 
     @PostMapping("\${api.products.rout}")
@@ -66,8 +67,8 @@ class ProductController {
     ) = try {
         productService.addProduct(groupId, productDto)
     } catch (e: Exception) {
-        e.message?.wrapToResponseEntity(HttpStatus.BAD_REQUEST) ?: ResponseBody.RESOURCE_NOT_FOUND("Product")
-            .wrapToResponseEntity(HttpStatus.BAD_REQUEST)
+        e.message?.toResponseEntity(HttpStatus.BAD_REQUEST) ?: ResponseBody.RESOURCE_NOT_FOUND("Product")
+            .toResponseEntity(HttpStatus.BAD_REQUEST)
     }
 
     @PatchMapping("\${api.products.current.rout}")
@@ -78,8 +79,8 @@ class ProductController {
     ) = try {
         productService.editProduct(groupId, productId, productDto)
     } catch (e: Exception) {
-        e.message?.wrapToResponseEntity(HttpStatus.BAD_REQUEST) ?: ResponseBody.RESOURCE_NOT_FOUND("Product")
-            .wrapToResponseEntity(HttpStatus.BAD_REQUEST)
+        e.message?.toResponseEntity(HttpStatus.BAD_REQUEST) ?: ResponseBody.RESOURCE_NOT_FOUND("Product")
+            .toResponseEntity(HttpStatus.BAD_REQUEST)
     }
 
 
@@ -88,7 +89,7 @@ class ProductController {
         @PathVariable(value = "groupId") groupId: Long,
         @PathVariable(value = "id") productId: Long
     ) = productService.removeProduct(groupId, productId).let {
-        "Product deleted".wrapToResponseEntity()
+        "Product deleted".toResponseEntity()
     }
 }
 
@@ -103,17 +104,17 @@ class ProductGroupController {
     @GetMapping("\${api.groups.rout}")
     fun getAllProductGroupsByGroupVariant(
         @PathVariable(value = "groupVariantId") groupVariantId: Long
-    ) = productGroupService.getAllProductGroupsByGroupVariant(groupVariantId).wrapToResponseEntity()
+    ) = productGroupService.getAllProductGroupsByGroupVariant(groupVariantId).toResponseEntity()
 
     @GetMapping("\${api.groups.current.rout}")
     fun getCurrentProductGroup(
         @PathVariable(value = "groupVariantId") groupVariantId: Long,
         @PathVariable(value = "id") groupId: Long
     ): ResponseEntity<Any> = try {
-        productGroupService.getCurrentProductGroup(groupVariantId, groupId).wrapToResponseEntity()
+        productGroupService.getCurrentProductGroup(groupVariantId, groupId).toResponseEntity()
     } catch (e: Exception) {
-        e.message?.wrapToResponseEntity(HttpStatus.BAD_REQUEST) ?: ResponseBody.RESOURCE_NOT_FOUND("Product Group")
-            .wrapToResponseEntity(HttpStatus.BAD_REQUEST)
+        e.message?.toResponseEntity(HttpStatus.BAD_REQUEST) ?: ResponseBody.RESOURCE_NOT_FOUND("Product Group")
+            .toResponseEntity(HttpStatus.BAD_REQUEST)
     }
 
     @PostMapping("\${api.groups.rout}")
@@ -123,8 +124,8 @@ class ProductGroupController {
     ) = try {
         productGroupService.addProductGroup(groupVariantId, productGroupDto)
     } catch (e: Exception) {
-        e.message?.wrapToResponseEntity(HttpStatus.BAD_REQUEST) ?: ResponseBody.RESOURCE_NOT_FOUND("Product Group")
-            .wrapToResponseEntity(HttpStatus.BAD_REQUEST)
+        e.message?.toResponseEntity(HttpStatus.BAD_REQUEST) ?: ResponseBody.RESOURCE_NOT_FOUND("Product Group")
+            .toResponseEntity(HttpStatus.BAD_REQUEST)
     }
 
     @PatchMapping("\${api.groups.current.rout}")
@@ -135,8 +136,8 @@ class ProductGroupController {
     ) = try {
         productGroupService.editProductGroup(groupVariantId, product, productGroupDto)
     } catch (e: Exception) {
-        e.message?.wrapToResponseEntity(HttpStatus.BAD_REQUEST) ?: ResponseBody.RESOURCE_NOT_FOUND("Product Group")
-            .wrapToResponseEntity(HttpStatus.BAD_REQUEST)
+        e.message?.toResponseEntity(HttpStatus.BAD_REQUEST) ?: ResponseBody.RESOURCE_NOT_FOUND("Product Group")
+            .toResponseEntity(HttpStatus.BAD_REQUEST)
     }
 
     @DeleteMapping("\${api.groups.current.rout}")
@@ -144,8 +145,14 @@ class ProductGroupController {
         @PathVariable(value = "groupVariantId") groupVariantId: Long,
         @PathVariable(value = "id") product: Long
     ) = productGroupService.removeProductGroup(groupVariantId, product).let {
-        "Product Group deleted".wrapToResponseEntity()
+        "Product Group deleted".toResponseEntity()
     }
+
+    @GetMapping("")
+    fun validateOrder(@RequestBody orders:List<OrderDto>) {
+
+    }
+
 }
 
 @RestController
@@ -157,34 +164,34 @@ class GroupVariantController {
     private lateinit var logger: Logger
 
     @GetMapping("\${api.group-variants.rout}")
-    fun getAllGroupVariant() = groupVariantService.getAllGroupVariant().wrapToResponseEntity()
+    fun getAllGroupVariant() = groupVariantService.getAllGroupVariant().toResponseEntity()
 
     @GetMapping("\${api.group-variants.current.rout}")
     fun getCurrentGroupVariant(
         @PathVariable(value = "id") groupVariantId: Long
-    ) = groupVariantService.getCurrentProductGroup(groupVariantId).wrapToResponseEntity()
+    ) = groupVariantService.getCurrentProductGroup(groupVariantId).toResponseEntity()
 
     @PostMapping("\${api.group-variants.rout}")
     fun addGroupVariant(
         @RequestBody groupVariantDto: GroupVariantDto
-    ) = groupVariantService.addGroupVariant(groupVariantDto).wrapToResponseEntity()
+    ) = groupVariantService.addGroupVariant(groupVariantDto).toResponseEntity()
 
     @PatchMapping("\${api.group-variants.current.rout}")
     fun editGroupVariant(
         @PathVariable(value = "id") groupVariantId: Long,
         @RequestBody groupVariantDto: GroupVariantDto
     ) = try {
-        groupVariantService.editGroupVariant(groupVariantId, groupVariantDto).wrapToResponseEntity()
+        groupVariantService.editGroupVariant(groupVariantId, groupVariantDto).toResponseEntity()
     } catch (e: Exception) {
-        e.message?.wrapToResponseEntity(HttpStatus.BAD_REQUEST) ?: ResponseBody.RESOURCE_NOT_FOUND("Group Variant")
-            .wrapToResponseEntity(HttpStatus.BAD_REQUEST)
+        e.message?.toResponseEntity(HttpStatus.BAD_REQUEST) ?: ResponseBody.RESOURCE_NOT_FOUND("Group Variant")
+            .toResponseEntity(HttpStatus.BAD_REQUEST)
     }
 
     @DeleteMapping("\${api.group-variants.current.rout}")
     fun removeGroupVariant(
         @PathVariable(value = "id") groupVariantId: Long
     ) = groupVariantService.removeGroupVariant(groupVariantId).let {
-        "Group variant deleted".wrapToResponseEntity()
+        "Group variant deleted".toResponseEntity()
     }
 
 }
@@ -238,6 +245,4 @@ class ReviewController {
 
 }
 
-
-internal fun Any.wrapToResponseEntity(httpStatus: HttpStatus = HttpStatus.OK) = ResponseEntity<Any>(this, httpStatus)
 

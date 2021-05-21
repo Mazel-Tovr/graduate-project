@@ -52,3 +52,29 @@ data class UserForAdminDto(
     val email: String,
     var role: UserRole
 )
+
+data class CartItemAmountDto(
+    val itemId: Long,
+    val newAmount: Int
+)
+data class CartDto(
+    val cartId: Long,
+    val cart: Set<CartItemDto> = emptySet(),
+    val price:Int
+)
+data class CartItemDto(
+    val productId: Long = -1,
+    val productGroupId: Long = -1,
+    val amount: Int = 1,
+    val price: Int = 0
+)
+data class OrderDto(
+    val totalPrice : Long,
+    val items : Set<OrderItemDto>
+)
+
+data class OrderItemDto(
+    val price: Long = -1,
+    val productId: Long = -1,
+    val groupId: Long = -1
+)

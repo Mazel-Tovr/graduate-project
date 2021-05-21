@@ -31,6 +31,11 @@ server:
 #
 #Spring
 #
+
+logging:
+  level:
+    com.mazeltov: DEBUG
+
 spring:
   application:
     name: RECOMMENDATION-SERVICE
@@ -130,7 +135,7 @@ hystrix:
 
 
 api:
-  rout: /api
+  rout: /api/prod/rec
   recommendation-service:
     rout: ${api.rout}/recommendations
     current-user:

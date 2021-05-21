@@ -82,7 +82,7 @@ eureka:
     lease-expiration-duration-in-seconds: 15
     lease-renewal-interval-in-seconds: 5
     ip-address: ${server.address}
-    instance-id: ${server.address}:${server.port}`
+    instance-id: ${server.address}:${server.port}
 #
 #FEING
 #
@@ -120,13 +120,13 @@ hystrix:
           semaphore:
             maxConcurrentRequests: 3
 api:
-  rout: /api
+  rout: /api/cart
   cart-service:
     rout: ${api.rout}/carts
-    current:
-      rout: ${api.cart-service.rout}/{userId}
-      amount:
-        rout: ${api.cart-service.rout}/{cartId}/{amount}
+    user:
+      rout: ${api.cart-service.rout}/user/{userName}
+      current:
+        rout: ${api.cart-service.user.rout}/{cartId}
 
 jwt:
   header: Authorization

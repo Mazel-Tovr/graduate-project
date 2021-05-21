@@ -111,7 +111,7 @@ hystrix:
             maxConcurrentRequests: 3
 
 api:
-  rout: /api
+  rout: /api/prod/rew
   review-service:
     rout: ${api.rout}/{productId}/reviews
     current:

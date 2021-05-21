@@ -1,17 +1,22 @@
 package com.mazeltov.recommendationservice.service
 
 import com.mazeltov.common.exception.*
+import com.mazeltov.common.spring.*
 import com.mazeltov.recommendationservice.dao.product.model.*
 import com.mazeltov.recommendationservice.dao.product.repository.*
 import com.mazeltov.recommendationservice.dao.recommendation.model.*
 import com.mazeltov.recommendationservice.dao.recommendation.model.ProductGroup
 import com.mazeltov.recommendationservice.dao.recommendation.repository.*
+import org.slf4j.*
 import org.springframework.beans.factory.annotation.*
 import org.springframework.data.domain.*
 import org.springframework.stereotype.*
 
 @Service
 class Recommendation {
+
+    @InjectLogger
+    private lateinit var logger: Logger
 
     @Autowired
     private lateinit var userRepository: UserRepository
@@ -26,6 +31,7 @@ class Recommendation {
     private lateinit var userInterestedInGroupRepository: UserInterestedInGroupRepository
 
     fun userVisitGroup(userName: String?, groupId: Long) {
+        logger.debug("User $userName visit group $groupId")
         userName?.let {
             val user = getOrCreateUser(userName)
             val group = getOrCreateProductGroup(groupId)
@@ -37,6 +43,7 @@ class Recommendation {
     }
 
     fun getRecommendations(userName: String?, count: Int = 5): List<Product> {
+        logger.debug("Getting recommends fro user $userName")
         userName?.let {
             val groupId =
                 userInterestedInGroupRepository.findFirstByUserOrderByVisitTimeDesc(getOrCreateUser(it))?.productGroup?.id
