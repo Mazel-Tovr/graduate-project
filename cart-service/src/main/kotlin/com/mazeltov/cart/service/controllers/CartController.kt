@@ -69,7 +69,7 @@ class CartController {
         return ResponseEntity(it.message, HttpStatus.BAD_REQUEST)
     }
 
-    @PatchMapping("\${api.cart-service.rout}")
+    @PutMapping("\${api.cart-service.rout}")
     fun updatePricesInAllCarts(@RequestBody productDto: ProductDto): ResponseEntity<*> = run {
         cartService.updatePrices(productDto)
         ResponseEntity("Price updated", HttpStatus.OK)

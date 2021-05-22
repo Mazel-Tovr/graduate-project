@@ -10,7 +10,7 @@ services:
       MYSQL_TCP_PORT: 3305
     ports:
       - 3305:3305
-    hostname: product-database
+    # hostname: product-database
     volumes:
       - D:/GitHub/graduate-project/databases/product/var/lib/mysql57-data:/var/lib/mysql
 
@@ -80,12 +80,13 @@ services:
     restart: always
     ports:
       - 8761:8761
-    hostname: eureka-server
+    # hostname: eureka-server
 
   gateway:
     build: gateway/
     container_name: gateway
     restart: always
+    hostname: gateway
     ports:
       - 8762:8762
     depends_on:
@@ -97,7 +98,7 @@ services:
     container_name: product-service
     ports:
       - 8089:8089
-    hostname: product-service
+   # hostname: product-service
     depends_on:
       - gateway
       - eureka-server
@@ -110,7 +111,7 @@ services:
     container_name: authorization-service
     ports:
       - 8091:8091
-    hostname: authorization-service
+    # hostname: authorization-service
     depends_on:
       - gateway
       - eureka-server
@@ -124,7 +125,7 @@ services:
     container_name: cart-service
     ports:
       - 8100:8100
-    hostname: cart-service
+    # hostname: cart-service
     depends_on:
       - gateway
       - eureka-server
@@ -136,7 +137,7 @@ services:
 #    restart: always
     container_name: review-service
     ports:
-      - 8101:8101
+      - 8082:8082
     hostname: review-service
     depends_on:
       - gateway
@@ -150,7 +151,7 @@ services:
     container_name: order-service
     ports:
       - 8102:8102
-    hostname: order-service
+    # hostname: order-service
     depends_on:
       - gateway
       - eureka-server
@@ -163,7 +164,7 @@ services:
     container_name: recommendation-service
     ports:
       - 8103:8103
-    hostname: recommendation-service
+    # hostname: recommendation-service
     depends_on:
       - gateway
       - eureka-server

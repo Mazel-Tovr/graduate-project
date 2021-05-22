@@ -1,9 +1,11 @@
-package com.mazeltov.cart.service.config
+package com.mazeltov.orderservice.config
 
+import com.mazeltov.common.swagger.*
 import org.springframework.beans.factory.annotation.*
 import org.springframework.context.annotation.*
 import springfox.documentation.builders.*
 import springfox.documentation.builders.PathSelectors.*
+import springfox.documentation.service.*
 import springfox.documentation.spi.*
 import springfox.documentation.spring.web.plugins.*
 import springfox.documentation.swagger2.annotations.*
@@ -14,18 +16,22 @@ import java.util.function.*
 class MySwaggerConfig {
     @Bean
     fun api(): Docket {
+        val schemeList: MutableList<SecurityScheme> = ArrayList<SecurityScheme>()
+        schemeList.add(ApiKey("JWT", "Authorization", "header"))
         return Docket(DocumentationType.SWAGGER_2)
-                .select()
-                .apis(RequestHandlerSelectors.any())
-                .paths(paths())
-                .build()
+            .securityContexts(securityContext())
+            .securitySchemes(schemeList)
+            .select()
+            .apis(RequestHandlerSelectors.any())
+            .paths(paths())
+            .build()
     }
 
-    @Value("\${api.order-service.rout}")
-    private lateinit var orderService: String
+    @Value("\${api.rout}")
+    private lateinit var api: String
 
     private fun paths(): Predicate<String> {
         return regex("/.*")
-                .or(regex("$orderService.*"))
+
     }
 }

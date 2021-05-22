@@ -3,6 +3,7 @@ package com.mazeltov.productservice.feignclients
 import com.mazeltov.common.*
 import com.mazeltov.common.dto.*
 import com.mazeltov.common.spring.*
+import com.mazeltov.productservice.config.*
 import com.mazeltov.productservice.endpoints.*
 import org.slf4j.*
 import org.springframework.cloud.openfeign.*
@@ -11,12 +12,13 @@ import org.springframework.stereotype.*
 import org.springframework.web.bind.annotation.*
 
 @FeignClient(
-        name = "\${cart-service.name}",
-        fallback = CartServiceFeignClient.CartServiceDefaultRealisation::class
+    name = "\${cart-service.name}",
+    fallback = CartServiceFeignClient.CartServiceDefaultRealisation::class,
+    configuration = [Configure::class]
 )
 interface CartServiceFeignClient {
 
-    @PatchMapping("\${api.cart-service.carts.rout}")
+    @PutMapping("\${api.cart-service.carts.rout}")
     fun updatePricesInAllCarts(@RequestBody productDto: ProductDto): ResponseEntity<*>
 
 

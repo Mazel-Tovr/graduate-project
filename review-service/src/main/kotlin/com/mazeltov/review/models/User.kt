@@ -9,7 +9,7 @@ data class User(
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         val id: Long = -1,
         @Column(unique = true)
-        val userId: Long = -1,
+        val userName: String = "",
         @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
         var reviews: List<Review> = emptyList()
 )

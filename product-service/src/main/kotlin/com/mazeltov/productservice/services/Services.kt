@@ -65,7 +65,9 @@ class ProductService {
         productGroupOperations.findById(productGroupId).takeIf { it.isPresent }?.run {
             val product = it.get()
             val async = if (productDto.price != product.price) GlobalScope.async {
-                cartServiceFeignClient.updatePricesInAllCarts(productDto)
+                cartServiceFeignClient.updatePricesInAllCarts(
+                    productDto.copy(id = productId, productGroupId = productGroupId)
+                )
             } else null
             productOperations.save(product.copy(
                 name = productDto.name,

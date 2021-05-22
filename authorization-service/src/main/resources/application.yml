@@ -5,6 +5,9 @@ db:
   port: 3312
   host: localhost
   name: userDatabase
+server:
+  port: 8091
+  address: localhost
 ---
 spring:
   profiles: docker
@@ -15,11 +18,11 @@ db:
   port: 3312
   host: user-database
   name: userDatabase
----
-
 server:
   port: 8091
-  address: localhost
+  address: authorization-service
+---
+
 #
 #Spring
 #

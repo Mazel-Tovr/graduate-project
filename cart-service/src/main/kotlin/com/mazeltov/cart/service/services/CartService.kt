@@ -54,7 +54,7 @@ class CartService {
             CartDoesNotExistException("Cart doesn't exist create it first")
         }.let { cart ->
             val itemToReplace = cart.cart.find { cartItems ->
-                cartItems.productId == cartItem.itemId
+                cartItems.productId == cartItem.productId && cartItems.productGroupId == cartItem.productGroupId
             } ?: throw ProductNotInCartException("Product not in cart")
             if (cartItem.newAmount <= 0) {
                 cartRepository.save(cart.copy(cart = cart.cart - itemToReplace))

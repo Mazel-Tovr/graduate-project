@@ -1,16 +1,22 @@
 eureka:
   port: 8761
   address: localhost
+
+server:
+  port: 8762
+  address: localhost
 ---
 spring:
   profiles: docker
 eureka:
   port: 8761
   address: eureka-server
----
+
 server:
   port: 8762
-  address: localhost
+  address: gateway
+---
+
 
 cart-service:
   id: CART-SERVICE

@@ -5,6 +5,9 @@ db:
   port: 3309
   host: localhost
   name: cartDatabase
+server:
+  port: 8071
+  address: localhost
 ---
 spring:
   profiles: docker
@@ -15,11 +18,12 @@ db:
   port: 3309
   host: cart-database
   name: cartDatabase
----
-
 server:
   port: 8071
-  address: localhost
+  address: cart-service
+---
+
+
 #
 #Spring
 #

@@ -9,6 +9,9 @@ db2:
   port: 3311
   host: localhost
   name: recommendationDatabase
+server:
+  port: 7777
+  address: localhost
 ---
 spring:
   profiles: docker
@@ -23,11 +26,13 @@ db2:
   port: 3311
   host: recommendation-database
   name: recommendationDatabase
----
 
 server:
   port: 7777
-  address: localhost
+  address: recommendation-service
+---
+
+
 #
 #Spring
 #

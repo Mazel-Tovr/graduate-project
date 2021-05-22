@@ -1,4 +1,4 @@
-package com.mazeltov.cart.service.config
+package com.mazeltov.orderservice.config
 
 import com.mazeltov.common.spring.*
 import org.springframework.beans.factory.config.*

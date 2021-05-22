@@ -3,12 +3,10 @@ package com.mazeltov.review.config
 import com.mazeltov.common.swagger.*
 import org.springframework.beans.factory.annotation.*
 import org.springframework.context.annotation.*
-import org.springframework.web.servlet.config.annotation.*
 import springfox.documentation.builders.*
 import springfox.documentation.builders.PathSelectors.*
 import springfox.documentation.service.*
 import springfox.documentation.spi.*
-import springfox.documentation.spi.service.contexts.*
 import springfox.documentation.spring.web.plugins.*
 import springfox.documentation.swagger2.annotations.*
 import java.util.function.*

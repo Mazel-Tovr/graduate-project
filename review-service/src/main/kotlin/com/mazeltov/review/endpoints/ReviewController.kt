@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*
 @RestController
 class ReviewController {
 
+
     @Autowired
     private lateinit var reviewService: ReviewService
 
@@ -19,7 +20,7 @@ class ReviewController {
     private lateinit var logger: Logger
 
     @GetMapping("\${api.review-service.rout}")
-    fun getAllReviews(@PathVariable(value = "productId") productId: Long): List<ReviewDto> {
+    fun getAllReviews(@PathVariable(value = "productId") productId: Long): List<*> {
         logger.info("Getting all reviews")
         return reviewService.getAllReviews(productId)
     }
@@ -28,7 +29,7 @@ class ReviewController {
     fun getReviewById(
         @PathVariable(value = "productId") productId: Long,
         @PathVariable(value = "id") reviewId: Long
-    ): ResponseEntity<Any> {
+    ): ResponseEntity<*> {
         logger.info("Getting review by id")
         return reviewService.getReviewById(productId, reviewId)?.let {
             ResponseEntity<Any>(it, HttpStatus.OK)
@@ -49,9 +50,9 @@ class ReviewController {
     fun addReview(
         @PathVariable(value = "productId") productId: Long,
         @RequestBody review: ReviewDto
-    ): ResponseEntity<Any> {
+    ): ResponseEntity<*> {
         logger.info("Adding review")
-        return kotlin.runCatching { reviewService.addReview(productId, review) }.getOrElse {
+        return runCatching { reviewService.addReview(productId, review) }.getOrElse {
             return it.message?.wrapToResponseEntity(HttpStatus.BAD_REQUEST)
                 ?: "Error".wrapToResponseEntity(HttpStatus.BAD_REQUEST)
         }.wrapToResponseEntity()
@@ -61,14 +62,14 @@ class ReviewController {
     fun editReview(
         @PathVariable(value = "productId") productId: Long,
         @RequestBody review: ReviewDto
-    ): ResponseEntity<Any> {
+    ): ResponseEntity<*> {
         logger.info("Editing review")
         return runCatching {
             reviewService.editReview(productId, review)
         }.getOrElse {
             return it.message?.wrapToResponseEntity(HttpStatus.BAD_REQUEST)
                 ?: "Error".wrapToResponseEntity(HttpStatus.BAD_REQUEST)
-        }.wrapToResponseEntity()
+        }
 
     }
 
@@ -76,15 +77,17 @@ class ReviewController {
     fun deleteReview(
         @PathVariable(value = "productId") productId: Long,
         @PathVariable(value = "id") reviewId: Long
-    ): ResponseEntity<Any> {
+    ): ResponseEntity<*> {
         logger.info("Deleting review")
-        return kotlin.runCatching {
-            reviewService.deleteReview(productId, reviewId).let { "review $reviewId deleted" }
+        return runCatching {
+            reviewService.deleteReview(productId, reviewId)
         }.getOrElse {
             return it.message?.wrapToResponseEntity(HttpStatus.BAD_REQUEST)
                 ?: "Error".wrapToResponseEntity(HttpStatus.BAD_REQUEST)
-        }.wrapToResponseEntity()
+        }
     }
+
+
 }
 
 internal fun Any.wrapToResponseEntity(httpStatus: HttpStatus = HttpStatus.OK) = ResponseEntity<Any>(this, httpStatus)

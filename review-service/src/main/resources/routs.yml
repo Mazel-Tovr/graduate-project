@@ -1,6 +1,0 @@
-#api:
-#  rout: /api
-#  review-service:
-#    rout: ${api.rout}/{product}/reviews
-#    current:
-#      rout: ${api.review-service.rout}/{id}

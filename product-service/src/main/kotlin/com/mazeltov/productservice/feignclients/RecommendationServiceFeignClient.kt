@@ -1,6 +1,7 @@
 package com.mazeltov.productservice.feignclients
 
 import com.mazeltov.common.dto.*
+import com.mazeltov.productservice.config.*
 import com.mazeltov.productservice.models.*
 import com.mazeltov.productservice.repositories.*
 import org.springframework.beans.factory.annotation.*
@@ -11,7 +12,8 @@ import org.springframework.web.bind.annotation.*
 
 @FeignClient(
     name = "\${recommendation-service.name}",
-    fallback = RecommendationServiceFeignClient.RecommendationServiceDefaultRealisation::class
+    fallback = RecommendationServiceFeignClient.RecommendationServiceDefaultRealisation::class,
+    configuration = [Configure::class]
 )
 interface RecommendationServiceFeignClient {
 

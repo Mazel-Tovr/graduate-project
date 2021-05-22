@@ -11,8 +11,9 @@ import org.springframework.stereotype.*
 import org.springframework.web.bind.annotation.*
 
 @FeignClient(
-        name = "\${review-service.name}",
-        fallback = ReviewServiceFeignClient.ReviewServiceDefaultRealisation::class
+    name = "\${review-service.name}",
+    fallback = ReviewServiceFeignClient.ReviewServiceDefaultRealisation::class,
+    configuration = [com.mazeltov.productservice.config.Configure::class]
 )
 interface ReviewServiceFeignClient {
 
@@ -20,23 +21,35 @@ interface ReviewServiceFeignClient {
     fun getAllReviews(@PathVariable(value = "productId") productId: Long): List<ReviewDto>
 
     @GetMapping("\${api.review-services.current.rout}")
-    fun getReviewById(@PathVariable(value = "productId") productId: Long,
-                      @PathVariable(value = "id") reviewId: Long): ResponseEntity<Any>
+    fun getReviewById(
+        @PathVariable(value = "productId") productId: Long,
+        @PathVariable(value = "id") reviewId: Long
+    ): ResponseEntity<Any>
 
     @GetMapping("\${api.review-services.rout}")
-    fun getReviewsBetween(@PathVariable(value = "productId") productId: Long,
-                          @RequestParam(value = "start") start: Int,
-                          @RequestParam(value = "finish") finish: Int): List<ReviewDto>
+    fun getReviewsBetween(
+        @PathVariable(value = "productId") productId: Long,
+        @RequestParam(value = "start") start: Int,
+        @RequestParam(value = "finish") finish: Int
+    ): List<ReviewDto>
 
     @PostMapping("\${api.review-services.rout}")
-    fun addReview(@PathVariable(value = "productId") productId: Long, @RequestBody review: ReviewDto): ResponseEntity<Any>
+    fun addReview(
+        @PathVariable(value = "productId") productId: Long,
+        @RequestBody review: ReviewDto
+    ): ResponseEntity<Any>
 
     @PatchMapping("\${api.review-services.current.rout}")
-    fun editReview(@PathVariable(value = "productId") productId: Long, @RequestBody review: ReviewDto): ResponseEntity<Any>
+    fun editReview(
+        @PathVariable(value = "productId") productId: Long,
+        @RequestBody review: ReviewDto
+    ): ResponseEntity<Any>
 
     @DeleteMapping("\${api.review-services.current.rout}")
-    fun deleteReview(@PathVariable(value = "productId") productId: Long,
-                     @PathVariable(value = "id") reviewId: Long): ResponseEntity<Any>
+    fun deleteReview(
+        @PathVariable(value = "productId") productId: Long,
+        @PathVariable(value = "id") reviewId: Long
+    ): ResponseEntity<Any>
 
     @Component
     class ReviewServiceDefaultRealisation : ReviewServiceFeignClient {

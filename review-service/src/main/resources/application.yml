@@ -6,6 +6,10 @@ db:
   port: 3308
   host: localhost
   name: reviewDatabase
+
+server:
+  port: 8082
+  address: localhost
 ---
 spring:
   profiles: docker
@@ -16,11 +20,12 @@ db:
   port: 3308
   host: review-database
   name: reviewDatabase
----
 
 server:
   port: 8082
-  address: localhost
+  address: review-service
+---
+
 #
 #Spring
 #

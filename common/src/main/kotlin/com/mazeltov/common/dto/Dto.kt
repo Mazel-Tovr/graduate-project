@@ -28,7 +28,7 @@ data class GroupVariantDto(
 data class ReviewDto(
     val id: Long = -1,
     val productId: Long,
-    val userId: Long,
+    val userName: String,
     val date: Date,
     val content: String
 )
@@ -54,27 +54,46 @@ data class UserForAdminDto(
 )
 
 data class CartItemAmountDto(
-    val itemId: Long,
+    val productId: Long,
+    val productGroupId: Long,
     val newAmount: Int
 )
+
 data class CartDto(
     val cartId: Long,
     val cart: Set<CartItemDto> = emptySet(),
-    val price:Int
+    val price: Int
 )
+
 data class CartItemDto(
     val productId: Long = -1,
     val productGroupId: Long = -1,
     val amount: Int = 1,
     val price: Int = 0
 )
+
 data class OrderDto(
-    val totalPrice : Long,
-    val items : Set<OrderItemDto>
+    val name: String,
+    val address: String,
+    val city: String,
+    val comment: String = "",
+    val created: Date = Date(),
+    var status: String = "",
+    val items: Set<OrderItemDto>,
+    val totalPrice: Long
+)
+
+data class OrderInfoDto(
+    val name: String,
+    val address: String,
+    val city: String,
+    val comment: String = "",
+    val status: String = ""
 )
 
 data class OrderItemDto(
-    val price: Long = -1,
+    val price: Int = -1,
+    val amount: Int = -1,
     val productId: Long = -1,
     val groupId: Long = -1
 )

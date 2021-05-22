@@ -11,4 +11,7 @@ fun getActualRequest(): HttpServletRequest =
 fun getUserIdFromRequest(header: String, secret: String) =
     getToken(getActualRequest(), header)?.getUserNameFromToken(secret)
 
+fun getUserRoleFromRequest(header: String, secret: String) =
+    getToken(getActualRequest(), header)?.getRoleFromToken(secret)
+
 fun Any.toResponseEntity(httpStatus: HttpStatus = HttpStatus.OK) = ResponseEntity(this, httpStatus)

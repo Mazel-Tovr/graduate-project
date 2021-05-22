@@ -92,10 +92,6 @@ feign:
 
 product-service:
   name: PRODUCT-SERVICE
-#product-availabillity-service:
-#  name: PRODUCT-AVAILABILLITY-SEVICE
-cart-service:
-  name: CART-SERVICE
 #
 #Ribbon planning to make server load balancer to cart, product services
 #
@@ -128,9 +124,13 @@ api:
   order-service:
     rout: ${api.rout}/orders
     user-orders:
-      rout: ${api.order-service.rout}/{userId}
+      rout: ${api.order-service.rout}/{userName}
       current:
         rout: ${api.order-service.user-orders.rout}/{orderId}
+        info:
+          rout: ${api.order-service.user-orders.current.rout}/info
+        item :
+          rout: ${api.order-service.user-orders.current.rout}/{itemId}
 
 jwt:
   header: Authorization

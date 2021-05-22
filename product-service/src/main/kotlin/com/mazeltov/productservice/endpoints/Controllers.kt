@@ -148,10 +148,10 @@ class ProductGroupController {
         "Product Group deleted".toResponseEntity()
     }
 
-    @GetMapping("")
-    fun validateOrder(@RequestBody orders:List<OrderDto>) {
-
-    }
+//    @GetMapping("")
+//    fun validateOrder(@RequestBody orders:List<OrderDto>) {
+//
+//    }
 
 }
 

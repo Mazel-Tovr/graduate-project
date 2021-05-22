@@ -5,6 +5,9 @@ db:
   port: 3305
   host: localhost
   name: productDatabase
+server:
+  port: 8089
+  address: localhost
 ---
 spring:
   profiles: docker
@@ -15,11 +18,12 @@ db:
   port: 3305
   host: product-database
   name: productDatabase
----
-
 server:
   port: 8089
-  address: localhost
+  address: product-service
+---
+
+
 #
 #Spring
 #

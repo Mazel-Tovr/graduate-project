@@ -37,7 +37,7 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
             .addFilterBefore(tokenVerificationFilter(), BasicAuthenticationFilter::class.java)
             .authorizeRequests()
             .antMatchers(HttpMethod.GET, "$api/**").hasAnyRole(USER.name, ADMIN.name)
-            .antMatchers(HttpMethod.PATCH, cartService).hasAnyRole(USER.name,ADMIN.name)
+            .antMatchers(HttpMethod.PUT, cartService).hasAnyRole(ADMIN.name)
             .antMatchers(HttpMethod.POST, "$cartService/**").hasAnyRole(USER.name, ADMIN.name)
             .antMatchers(HttpMethod.PATCH, "$cartService/**").hasAnyRole(USER.name, ADMIN.name)
             .antMatchers("/").permitAll()

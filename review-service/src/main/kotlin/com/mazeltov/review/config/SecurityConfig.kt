@@ -3,11 +3,9 @@ package com.mazeltov.review.config
 import com.mazeltov.common.security.*
 import org.springframework.beans.factory.annotation.*
 import org.springframework.context.annotation.*
-import org.springframework.http.*
 import org.springframework.security.config.annotation.web.builders.*
 import org.springframework.security.config.annotation.web.configuration.*
 import org.springframework.security.web.authentication.www.*
-import com.mazeltov.common.security.UserRole.*
 
 @Configuration
 @EnableWebSecurity
