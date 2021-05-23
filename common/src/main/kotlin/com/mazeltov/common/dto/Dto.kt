@@ -39,18 +39,18 @@ data class VisitDto(
 )
 
 data class UserDto(
-    val userName: String,
-    val password: String,
-    val name: String,
-    val email: String
+    val userName: String = "",
+    val password: String = "",
+    val name: String = "",
+    val email: String = ""
 )
 
 data class UserForAdminDto(
-    val userName: String,
-    val password: String,
-    val name: String,
-    val email: String,
-    var role: UserRole
+    val userName: String = "",
+    val password: String = "",
+    val name: String = "",
+    val email: String = "",
+    var role: UserRole = UserRole.USER
 )
 
 data class CartItemAmountDto(
