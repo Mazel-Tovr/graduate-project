@@ -5,6 +5,9 @@ db:
   port: 3310
   host: localhost
   name: orderDatabase
+server:
+  port: 8081
+  address: localhost
 ---
 spring:
   profiles: docker
@@ -15,11 +18,12 @@ db:
   port: 3310
   host: order-database
   name: orderDatabase
----
-
 server:
   port: 8081
-  address: localhost
+  address: order-service
+---
+
+
 #
 #Spring
 #
