@@ -10,7 +10,7 @@ db2:
   host: localhost
   name: recommendationDatabase
 server:
-  port: 7777
+  port: 8103
   address: localhost
 ---
 spring:
@@ -28,7 +28,7 @@ db2:
   name: recommendationDatabase
 
 server:
-  port: 7777
+  port: 8103
   address: recommendation-service
 ---
 

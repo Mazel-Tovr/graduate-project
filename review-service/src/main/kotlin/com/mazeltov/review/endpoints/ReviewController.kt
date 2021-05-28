@@ -1,7 +1,9 @@
 package com.mazeltov.review.endpoints
 
+import com.mazeltov.common.*
 import com.mazeltov.common.dto.*
 import com.mazeltov.common.response.ResponseBody
+import com.mazeltov.common.security.*
 import com.mazeltov.common.spring.*
 import com.mazeltov.review.service.*
 import org.slf4j.*
@@ -12,6 +14,11 @@ import org.springframework.web.bind.annotation.*
 @RestController
 class ReviewController {
 
+    @Value("\${jwt.secret}")
+    private lateinit var secret: String
+
+    @Value("\${jwt.header}")
+    private lateinit var header: String
 
     @Autowired
     private lateinit var reviewService: ReviewService
@@ -58,7 +65,7 @@ class ReviewController {
         }.wrapToResponseEntity()
     }
 
-    @PatchMapping("\${api.review-service.current.rout}")
+    @PutMapping("\${api.review-service.current.rout}")
     fun editReview(
         @PathVariable(value = "productId") productId: Long,
         @RequestBody review: ReviewDto
@@ -86,7 +93,6 @@ class ReviewController {
                 ?: "Error".wrapToResponseEntity(HttpStatus.BAD_REQUEST)
         }
     }
-
 
 }
 

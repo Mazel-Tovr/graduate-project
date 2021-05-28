@@ -39,7 +39,7 @@ interface ReviewServiceFeignClient {
         @RequestBody review: ReviewDto
     ): ResponseEntity<Any>
 
-    @PatchMapping("\${api.review-services.current.rout}")
+    @PutMapping("\${api.review-services.current.rout}")
     fun editReview(
         @PathVariable(value = "productId") productId: Long,
         @RequestBody review: ReviewDto

@@ -20,7 +20,6 @@ repositories {
 
 extra["springCloudVersion"] = "Hoxton.BUILD-SNAPSHOT"
 
-//TODO fix-swagger
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")

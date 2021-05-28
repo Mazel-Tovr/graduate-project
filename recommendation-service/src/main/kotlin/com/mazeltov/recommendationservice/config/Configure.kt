@@ -47,7 +47,7 @@ private val hibernateProperties = mapOf(
 class ProductDbConfig {
     @Primary
     @Bean(name = [productDb])
-    @ConfigurationProperties(prefix = productDbProp)//TODO possible i should change "datasource and productDb"
+    @ConfigurationProperties(prefix = productDbProp)
     fun dataSource(
             @Value("\${db1.host}") host: String,
             @Value("\${db1.port}") port: String,

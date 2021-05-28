@@ -124,7 +124,7 @@ services:
 #    restart: always
     container_name: cart-service
     ports:
-      - 8100:8100
+      - 8071:8071
     # hostname: cart-service
     depends_on:
       - gateway
@@ -150,7 +150,7 @@ services:
 #    restart: always
     container_name: order-service
     ports:
-      - 8102:8102
+      - 8081:8081
     # hostname: order-service
     depends_on:
       - gateway

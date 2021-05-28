@@ -230,7 +230,7 @@ class ReviewController {
         @RequestBody review: ReviewDto
     ): ResponseEntity<Any> = reviewServiceFeignClient.addReview(productId, review)
 
-    @PatchMapping("\${api.review-services.current.rout}")
+    @PutMapping("\${api.review-services.current.rout}")
     fun editReview(
         @PathVariable(value = "productId") productId: Long,
         @RequestBody review: ReviewDto
