@@ -58,7 +58,10 @@ class ReviewService {
             checkHeaders(it.get().user.userName) {
                 if (!it.isPresent) throw ReviewDoesNotExistException("This review $review doesn't exist")
                 reviewOperations.save(it.get().apply {
-                    user = getOrCreateUser(review.userName)
+                    user =
+                        if (getUserRoleFromRequest(header, secret) == UserRole.ADMIN)
+                            getOrCreateUser(review.userName)
+                        else user
                     product = getOrCreateProduct(review.productId)
                     date = review.date
                     content = review.content

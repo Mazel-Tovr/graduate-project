@@ -38,26 +38,29 @@ class ProductController {
     @GetMapping("\${api.products.current.rout}")
     fun getCurrentProductByProductGroup(
         @PathVariable(value = "groupId") groupId: Long,
-        @PathVariable(value = "id") productId: Long
+        @PathVariable(value = "id") productId: Long,
+        @RequestParam(value = "recommends",defaultValue = "true") boolean: Boolean
     ): ResponseEntity<Any> {
         val response = mutableMapOf<String, Any?>()
-        logger.debug("Getting product by id=$productId")
-        val userName = getUserIdFromRequest(header, secret)
-        logger.debug("User from request $userName")
-        val visited = GlobalScope.launch {
-            recommendationServiceFeignClient.userViewedProduct(VisitDto(userName, productId));
-        }
-        val recommendations = GlobalScope.async {
-            recommendationServiceFeignClient.getRecommendations(userName);
-        }
-
         response["Product"] = runCatching {
             productService.getCurrentProduct(groupId, productId)
         }.getOrElse {
             it.message
         }
-        response["recommends"] = runBlocking { visited.join(); recommendations.await() }
-        return response.toResponseEntity()
+        if (boolean) {
+            logger.debug("Getting product by id=$productId")
+            val userName = getUserIdFromRequest(header, secret)
+            logger.debug("User from request $userName")
+            val visited = GlobalScope.launch {
+                recommendationServiceFeignClient.userViewedProduct(VisitDto(userName, productId));
+            }
+            val recommendations = GlobalScope.async {
+                recommendationServiceFeignClient.getRecommendations(userName);
+            }
+            response["recommends"] = runBlocking { visited.join(); recommendations.await() }
+            return response.toResponseEntity()
+        }
+        return response["Product"]!!.toResponseEntity()
     }
 
     @PostMapping("\${api.products.rout}")
