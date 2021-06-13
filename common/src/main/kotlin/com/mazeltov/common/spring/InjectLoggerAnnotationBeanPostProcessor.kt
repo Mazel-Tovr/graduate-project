@@ -5,7 +5,9 @@ import org.slf4j.*
 import org.springframework.beans.factory.config.*
 import org.springframework.util.*
 
-
+/**
+ * BeanPostProcessor отвечающий за реализацию аннотации @see com.mazeltov.common.spring.InjectLogger
+ */
 class InjectLoggerAnnotationBeanPostProcessor : BeanPostProcessor {
 
     override fun postProcessBeforeInitialization(bean: Any, beanName: String): Any {

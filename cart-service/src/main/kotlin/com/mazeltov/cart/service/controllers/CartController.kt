@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.*
 import org.springframework.http.*
 import org.springframework.web.bind.annotation.*
 
+/**
+ * Класс который обрабатывает запросы для работы с корзиной
+ */
 @RestController
 class CartController {
 

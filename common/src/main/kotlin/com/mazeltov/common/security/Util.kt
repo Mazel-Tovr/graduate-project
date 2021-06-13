@@ -4,9 +4,14 @@ import io.jsonwebtoken.*
 import org.springframework.security.core.*
 import javax.servlet.http.*
 
-
+/**
+ * Утилитный метод для верификации токена
+ */
 fun String.verifyJWT(secret: String): Boolean = Jwts.parser().setSigningKey(secret).isSigned(this)
 
+/**
+ * Утилитный метод для получения ролей из токена
+ */
 fun String.getRoleFromToken(
     secret: String
 ): UserRole? = runCatching {
@@ -16,10 +21,16 @@ fun String.getRoleFromToken(
         }.map { it.values.first().substring(5, it.values.first().length) }.firstOrNull()?.let { UserRole.valueOf(it) }
 }.getOrNull()
 
+/**
+ * Утилитный метод для получения имени пользователя из токена
+ */
 fun String.getUserNameFromToken(
     secret: String
 ): String? = Jwts.parser().setSigningKey(secret).parseClaimsJws(this).body.subject
 
+/**
+ * Утилитный метод для получения токена
+ */
 fun getToken(
     request: HttpServletRequest,
     header: String

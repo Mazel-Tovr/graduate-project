@@ -6,6 +6,7 @@ plugins {
     kotlin("jvm") version "1.3.72"
     kotlin("plugin.spring") version "1.3.72"
     kotlin("plugin.jpa") version "1.3.72"
+    id("org.jetbrains.dokka") version "1.4.32"
 }
 
 group = "com.mazeltov"
@@ -17,6 +18,8 @@ repositories {
     maven { url = uri("https://repo.spring.io/milestone") }
     maven { url = uri("https://repo.spring.io/snapshot") }
 }
+
+apply(plugin= "org.jetbrains.dokka")
 
 extra["springCloudVersion"] = "Hoxton.BUILD-SNAPSHOT"
 

@@ -10,6 +10,11 @@ import org.springframework.http.*
 import org.springframework.stereotype.*
 import org.springframework.web.bind.annotation.*
 
+
+
+/**
+ * Феин клинет для сервиса рекоммендаций
+ */
 @FeignClient(
     name = "\${recommendation-service.name}",
     fallback = RecommendationServiceFeignClient.RecommendationServiceDefaultRealisation::class,

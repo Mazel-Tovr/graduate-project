@@ -8,7 +8,9 @@ import org.springframework.http.*
 import org.springframework.security.config.annotation.web.builders.*
 import org.springframework.security.config.annotation.web.configuration.*
 import org.springframework.security.web.authentication.www.*
-
+/**
+ * Класс с описанием настройки безопасности
+ */
 @Configuration
 @EnableWebSecurity
 class SecurityConfig : WebSecurityConfigurerAdapter() {

@@ -6,7 +6,9 @@ import com.mazeltov.common.dto.*
 import com.mazeltov.common.exception.*
 import org.springframework.beans.factory.annotation.*
 import org.springframework.stereotype.*
-
+/**
+ * Класс который содержит бизнес логику для корзины
+ */
 @Service
 class CartService {
 

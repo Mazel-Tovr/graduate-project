@@ -64,7 +64,6 @@ services:
 
   recommendation-database:
     image: mysql:5.7
-#    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: recommendationDatabase
@@ -80,7 +79,6 @@ services:
     restart: always
     ports:
       - 8761:8761
-    # hostname: eureka-server
 
   gateway:
     build: gateway/
@@ -94,11 +92,9 @@ services:
 
   product-service:
     build: product-service/
-#    restart: always
     container_name: product-service
     ports:
       - 8089:8089
-   # hostname: product-service
     depends_on:
       - gateway
       - eureka-server

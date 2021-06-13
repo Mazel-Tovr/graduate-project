@@ -12,6 +12,9 @@ import org.springframework.beans.factory.annotation.*
 import org.springframework.http.*
 import org.springframework.web.bind.annotation.*
 
+/**
+ * Класс который обрабатывает запросы для работы с продуктами
+ */
 @RestController
 class ProductController {
 
@@ -96,6 +99,9 @@ class ProductController {
     }
 }
 
+/**
+ * Класс который обрабатывает запросы для работы с продуктовой группой
+ */
 @RestController
 class ProductGroupController {
     @Autowired
@@ -157,7 +163,9 @@ class ProductGroupController {
 //    }
 
 }
-
+/**
+ * Класс который обрабатывает запросы для работы с группой вариантов
+ */
 @RestController
 class GroupVariantController {
     @Autowired
@@ -198,7 +206,9 @@ class GroupVariantController {
     }
 
 }
-
+/**
+ * Класс который перенаправляет запрос на продуктовый сервис
+ */
 @RestController
 class ReviewController {
 

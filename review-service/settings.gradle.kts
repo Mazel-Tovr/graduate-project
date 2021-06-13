@@ -4,6 +4,9 @@ pluginManagement {
 		maven { url = uri("https://repo.spring.io/snapshot") }
 		gradlePluginPortal()
 	}
+	plugins {
+		id("org.jetbrains.dokka") version "0.10.1"
+	}
 	resolutionStrategy {
 		eachPlugin {
 			if (requested.id.id == "org.springframework.boot") {

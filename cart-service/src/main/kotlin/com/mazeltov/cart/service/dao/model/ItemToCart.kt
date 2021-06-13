@@ -3,7 +3,9 @@ package com.mazeltov.cart.service.dao.model
 import java.io.*
 import javax.persistence.*
 
-
+/**
+ * Модель которая хранится в базе данных
+ */
 @Entity
 @Table(name = "item_to_cart")
 data class ItemToCart(
@@ -18,7 +20,9 @@ data class ItemToCart(
     @JoinColumn(name = "item_id")
     val item: CartItem = CartItem()
 )
-
+/**
+ * Составной ключ
+ */
 @Embeddable
 data class ItemToCartKey(
     @Column(name = "cart_id")

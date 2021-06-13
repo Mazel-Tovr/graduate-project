@@ -9,6 +9,9 @@ import org.springframework.security.config.annotation.web.configuration.*
 import org.springframework.security.web.authentication.www.*
 import com.mazeltov.common.security.UserRole.*
 
+/**
+ * Класс с описанием настройки безопасности
+ */
 @Configuration
 @EnableWebSecurity
 class SecurityConfig : WebSecurityConfigurerAdapter() {

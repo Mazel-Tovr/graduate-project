@@ -9,7 +9,9 @@ import org.springframework.cloud.openfeign.*
 import org.springframework.http.*
 import org.springframework.stereotype.*
 import org.springframework.web.bind.annotation.*
-
+/**
+ * Феин клинет для сервиса отзывов
+ */
 @FeignClient(
     name = "\${review-service.name}",
     fallback = ReviewServiceFeignClient.ReviewServiceDefaultRealisation::class,

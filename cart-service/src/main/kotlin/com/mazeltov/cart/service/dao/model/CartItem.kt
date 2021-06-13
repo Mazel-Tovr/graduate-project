@@ -1,7 +1,9 @@
 package com.mazeltov.cart.service.dao.model
 
 import javax.persistence.*
-
+/**
+ * Модель которая хранится в базе данных
+ */
 @Entity
 @Table(name = "cart_item")
 data class CartItem(

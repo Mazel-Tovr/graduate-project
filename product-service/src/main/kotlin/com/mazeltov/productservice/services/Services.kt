@@ -3,7 +3,6 @@ package com.mazeltov.productservice.services
 import com.mazeltov.common.dto.*
 import com.mazeltov.common.exception.*
 import com.mazeltov.common.spring.*
-import com.mazeltov.productservice.endpoints.*
 import com.mazeltov.productservice.feignclients.*
 import com.mazeltov.productservice.models.*
 import com.mazeltov.productservice.repositories.*
@@ -13,6 +12,10 @@ import org.springframework.beans.factory.annotation.*
 import org.springframework.http.*
 import org.springframework.stereotype.*
 
+
+/**
+ * Класс который содержит бизнес логику для продукта
+ */
 @Service
 class ProductService {
 
@@ -100,6 +103,9 @@ class ProductService {
 
 }
 
+/**
+ * Класс который содержит бизнес логику для продуктовой группы
+ */
 @Service
 class ProductGroupService {
     @Autowired
@@ -156,6 +162,9 @@ class ProductGroupService {
 
 }
 
+/**
+ * Класс который содержит бизнес логику для групп варианта
+ */
 @Service
 class GroupVariantService {
 

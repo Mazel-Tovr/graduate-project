@@ -1,5 +1,6 @@
 plugins {
     kotlin("jvm")
+    id("org.jetbrains.dokka")
 }
 
 repositories {
@@ -8,6 +9,8 @@ repositories {
     mavenCentral()
     jcenter()
 }
+
+apply(plugin= "org.jetbrains.dokka")
 
 dependencies {
     implementation(kotlin("stdlib"))

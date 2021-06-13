@@ -2,7 +2,9 @@ package com.mazeltov.productservice.models
 
 import javax.persistence.*
 
-//TODO try make id val
+/**
+ * Модель которая хранится в базе данных
+ */
 @Entity
 @Table(name = "group_variant")
 data class GroupVariant(

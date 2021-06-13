@@ -10,7 +10,9 @@ import springfox.documentation.spi.*
 import springfox.documentation.spring.web.plugins.*
 import springfox.documentation.swagger2.annotations.*
 import java.util.function.*
-
+/**
+ * Класс для настройки Swagger
+ */
 @Configuration
 @EnableSwagger2
 class MySwaggerConfig {

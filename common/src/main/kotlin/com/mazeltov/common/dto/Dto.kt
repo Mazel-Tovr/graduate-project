@@ -3,6 +3,9 @@ package com.mazeltov.common.dto
 import com.mazeltov.common.security.*
 import java.util.*
 
+/**
+ * Model classes 
+ */
 data class ProductDto(
     val id: Long = -1,
     val name: String,

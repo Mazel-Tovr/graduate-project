@@ -5,12 +5,16 @@ import org.springframework.data.jpa.repository.*
 import org.springframework.data.repository.query.*
 import org.springframework.stereotype.*
 import org.springframework.transaction.annotation.*
-
+/**
+ * Интерфейс для взаимодейсятвия с корзиной в базе данных
+ */
 @Repository
 interface CartRepository : JpaRepository<Cart, Long> {
     fun findByUserName(userName: String): List<Cart>
 }
-
+/**
+ * Интерфейс для взаимодейсятвия с предметом в корзине вариантов в базе данных
+ */
 @Repository
 interface CartItemRepository : JpaRepository<CartItem, Long> {
 

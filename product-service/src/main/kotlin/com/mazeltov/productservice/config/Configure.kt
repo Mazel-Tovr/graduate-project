@@ -10,7 +10,9 @@ import org.springframework.context.annotation.*
 import org.springframework.stereotype.*
 import org.springframework.web.servlet.*
 
-
+/**
+ * Класс конфигурациия бинов приложения
+ */
 @Configuration
 @EnableConfigurationProperties
 @PropertySources()

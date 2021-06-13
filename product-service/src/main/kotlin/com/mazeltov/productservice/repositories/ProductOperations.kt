@@ -5,6 +5,9 @@ import org.springframework.data.domain.*
 import org.springframework.data.jpa.repository.*
 import org.springframework.stereotype.*
 
+/**
+ * Интерфейс для взаимодейсятвия с продуктом в базе данных
+ */
 @Repository
 interface ProductOperations : JpaRepository<Product, Long> {
     fun findByProductGroupId(productGroupId: Long): List<Product>

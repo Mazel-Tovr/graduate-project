@@ -7,6 +7,9 @@ import org.springframework.web.filter.*
 import javax.servlet.*
 import javax.servlet.http.*
 
+/**
+ * Фильтер для верификации токена
+ */
 class TokenVerificationFilter(private val authHeader: String, private val authSecret: String) : OncePerRequestFilter() {
 
     override fun doFilterInternal(
@@ -35,8 +38,12 @@ class TokenVerificationFilter(private val authHeader: String, private val authSe
 
 }
 
-private class Authenticated(authorities: Collection<GrantedAuthority>, val token: String) :
-    AbstractAuthenticationToken(authorities) {
+/**
+ * Класс для который указывает на то что данный запрос аутентифицирован
+ */
+private class Authenticated(
+    authorities: Collection<GrantedAuthority>, val token: String
+) : AbstractAuthenticationToken(authorities) {
     override fun isAuthenticated(): Boolean {
         return true
     }
@@ -51,7 +58,9 @@ private class Authenticated(authorities: Collection<GrantedAuthority>, val token
 
 }
 
-
+/**
+ * Класс для который указывает на то что данный запрос не аутентифицирован
+ */
 private class AnonAuthentication : AbstractAuthenticationToken(null) {
     override fun getCredentials(): Any? {
         return null

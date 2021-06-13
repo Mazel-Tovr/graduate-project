@@ -6,8 +6,9 @@ plugins {
 	kotlin("jvm") version "1.3.72"
 	kotlin("plugin.spring") version "1.3.72"
 	kotlin("plugin.jpa") version "1.3.72"
+	id("org.jetbrains.dokka") version "0.10.1"
 }
-
+apply(plugin= "org.jetbrains.dokka")
 group = "com.mazeltov"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_11

@@ -2,7 +2,9 @@ package com.mazeltov.productservice.models
 
 import java.util.*
 import javax.persistence.*
-
+/**
+ * Модель которая хранится в базе данных
+ */
 @Entity
 @Table(name = "product")
 data class Product(
